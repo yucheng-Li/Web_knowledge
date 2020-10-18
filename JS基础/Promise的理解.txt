@@ -1,0 +1,11 @@
+Promise 的定义：它是JS异步编程的一种解决方案，相较于传统的 回调函数+事件 更加强大和合理
+
+Promise的理解：所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
+						从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+						
+Promise的特点：
+	（1）Promise对象的状态不会受外界的影响
+	Promise对象代表一个异步操作，且有三种状态：pending( 进行中 ) 、fulfilling( 已成功) 、rejected( 已失败 )
+	Promise对象一旦建立就会进入pending状态，且只有异步操作的结果才会改变Promise的状态
+	（2）Promise状态一旦改变就不会再变化，且此后随时都能通过访问得到这个状态结果
+	状态改变只有两种可能：1. pending -> fulfilled ( resolved )( 成功 ) 2. pending -> rejected (  rejected )（失败）

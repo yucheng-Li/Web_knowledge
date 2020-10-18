@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://www.html-js.com/article/4585 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="Shortcut Icon" href="http://assets.html-js.com//images/logo.ico?123">
+    <link href="http://assets.html-js.com//images/logo.ico?123" rel="shortcut icon" type="image/x-icon">
+    <link rel="stylesheet" href="./WEB页面的生命周期_files/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="./WEB页面的生命周期_files/main.css" type="text/css">
+    <link rel="stylesheet" href="./WEB页面的生命周期_files/prettify.css" type="text/css">
+    <link rel="stylesheet" href="./WEB页面的生命周期_files/glyphicons.css" type="text/css">
+    <script src="./WEB页面的生命周期_files/jquery.js.下载"></script>
+    <script src="./WEB页面的生命周期_files/htmljs.js.下载"></script>
+    <script src="./WEB页面的生命周期_files/prettify.js.下载"></script><meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://assets.html-js.com//images/icon.png" rel="apple-touch-icon">
+    <meta name="keywords" content="前端, 前端开发, web前端, web前端开发, 前端开发工程师, 前端开发攻城师,设计, 开发, 前端资源, CSS, JavaScript, Ajax, jQuery, html,html5,css3,浏览器兼容, 前端开发工具, 前端招聘, jQuery API, CSS整形和优化工具 , JS压缩工具 , JS格式化工具 , CSS参考手册 ,HTML参考手册 , 多重搜索 , nodejs , node , boostrap , sublime">
+    <meta name="baidu-site-verification" content="OnKVgNu37S">
+    <script>if($.browser.msie<8){alert("请不要使用ie浏览本站！本站不支持ie10以下浏览器。")}</script>
+    <title>WEB页面的生命周期,DOMContentLoaded,load,beforeunload,unload - javascript - 前端乱炖</title><meta name="description" content="简言理解WEB页面的生命周期，文档加载事件及顺序对WEB开发有十分的重要意义。如果不理解，在元素未加载就提前操作元素，则得不到想要的结果。而如果页面完全加载完成后，再进行操作，则又会影响用户体验。一般">
+    <style>
+      #bdshare a{}
+      .ad-blank{opacity:0.6;}
+    </style>
+    <script src="./WEB页面的生命周期_files/bootstrap-tooltip.js.下载"></script>
+    <script src="./WEB页面的生命周期_files/bootstrap-scrollspy.js.下载"></script>
+    <script src="./WEB页面的生命周期_files/tips.js.下载"></script>
+    <link rel="stylesheet" href="./WEB页面的生命周期_files/tips.css" type="text/css">
+  <link href="./WEB页面的生命周期_files/bdsstyle.css" rel="stylesheet" type="text/css"><script src="./WEB页面的生命周期_files/logger.js.下载"></script></head>
+  <body id="article"><iframe frameborder="0" style="display: none;" src="./WEB页面的生命周期_files/saved_resource.html"></iframe>
+    <div id="header">
+      <div class="wrapper clearfix"><a href="http://www.html-js.com/" title="前端乱炖" class="logo"><span class="dun">炖</span></a>
+        <div class="navbar navbar-inverse">
+          <div class="navbar-inner">
+            <div class="container">
+              <div class="nav-collapse collapse">
+                <ul class="nav left-nav">
+                  <!--li(class="#{locals.pageId==0?'active':''}",pageId="0")-->
+                  <!--  a(href="/") <i class="icon-home"></i>首页-->
+                  <li pageid="1" class="active"><a href="http://www.html-js.com/article"><i class="icon-book-open"></i>前端乱炖</a></li>
+                  <!--li(class="#{locals.pageId==7?'active':''}",pageId="7")-->
+                  <!--  a(href="/qa") <i class="icon-lightbulb"></i>问答-->
+                  <li pageid="10"><a href="http://www.html-js.com/topic"><i class="icon-group"></i>讨论区</a></li>
+                  <li pageid="20" class="hidden"><a href="http://www.html-js.com/talk"><i class="icon-conversation"></i>实时讨论</a></li>
+                  <li pageid="15" class="hidden"><a href="http://www.html-js.com/blog"><i class="icon-sampler"></i>博集</a></li>
+                  <li pageid="8" class="hidden"><a href="http://www.html-js.com/tag">标签</a></li>
+                  <li pageid="2" class="hidden"><a href="http://www.html-js.com/job"><i class="icon-leaf"></i>招聘</a></li>
+                  <li pageid="2"><a href="http://www.html-js.com/cards"><i class="icon-nameplate"></i>花名册</a></li>
+                  <li pageid="101"><a href="https://www.upyun.com/https">网站 HTTPS 检测</a></li>
+                  <li class="search">
+                    <form action="http://www.html-js.com/search" method="get" style="margin:0;"><i class="icon-search"></i>
+                      <input id="keyword" type="text" name="q" placeholder="搜索全站、站外内容" class="span2 input-large">
+                    </form>
+                  </li>
+                  <li pageid="6" class="hidden"><a href="http://www.html-js.com/book">免费送书</a></li>
+                </ul>
+                <ul class="right-nav">
+                  <li><a href="http://www.html-js.com/user/login?redirect=%2Farticle%2F4585">登录</a></li>
+                  <li><a href="http://www.html-js.com/talk"><i class="icon-conversation"></i>在线聊天</a></li>
+                  <li class="hidden sub-trigger"><a>其他功能</a>
+                    <ul class="sub-menu hidden">
+                      <li pageid="5"><a href="http://www.html-js.com/act">活动</a></li>
+                      <li pageid="9"><a href="http://www.html-js.com/tools"><i class="icon-classic-hammer hidden"></i>常用工具</a><span class="my-favs"></span></li>
+                      <li><a href="http://www.html-js.com/talk">实时讨论</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function(){
+        $(".sub-trigger").mouseenter(function(){
+          $(".sub-menu",this).removeClass("hidden")
+          }).mouseleave(function(){
+          $(".sub-menu",this).addClass("hidden")
+          })
+        })
+    </script>
+    <div style="margin:10px auto;width:1000px;"><a href="https://promotion.aliyun.com/ntms/act/qwbk.html?userCode=fcr8j84n"><img src="./WEB页面的生命周期_files/d48b243452d6d608b22a350ec6f7beb3.jpg"></a></div>
+    <div id="content" class="clearfix">
+      <div class="daen"></div>
+      <ul class="breadcrumb hidden">
+        <li><a href="http://www.html-js.com/">首页</a><span class="divider">/</span></li>
+        <li><a href="http://www.html-js.com/article">所有专栏</a><span class="divider">/</span></li>
+        <li><a href="http://www.html-js.com/article/column/4850">javascript</a><span class="divider">/</span></li>
+        <li class="active"><span>WEB页面的生命周期,DOMContentLoaded,load,beforeunload,unload</span></li>
+      </ul>
+      <div class="title">
+        <div class="wrapper">
+          <div style="font-size: 30px;line-height:50px;" href="http://p.html-js.com/article/4585" title="WEB页面的生命周期,DOMContentLoaded,load,beforeunload,unload" rel="bookmark" class="61">WEB页面的生命周期,DOMContentLoaded,load,beforeunload,unload</div>
+          <div class="info">
+            <div class="line"><span class="author vcard item"><a rel="author" href="http://www.html-js.com/user/10550" class="value url fn">iFat3</a> 发布在<a href="http://www.html-js.com/article/column/4850" class="value">javascript</a></span><span class="item">2018年2月25日</span><span class="item"><span class="index">view：</span><span class="value">1805</span></span><span style="margin-right:10px;color:#999;" class="item">HTML5</span><span style="margin-right:10px;color:#999;" class="item">前端开发</span><span style="margin-right:10px;color:#999;" class="item">DOM</span><span style="margin-right:10px;color:#999;" class="item">HTML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-wapper">
+        <div class="content">
+          <div class="left"><a style="border-radius:5px;display:block;margin-top:20px;border:1px solid #ccc;" href="https://s.souche.com/_S5nA3" target="_blank"><img src="./WEB页面的生命周期_files/9edf6abc08619a90cc82b3078c28f215.png"></a>
+            <div style="margin-top:20px;" class="alert">在文章任何区域双击击即可给文章添加【评注】！浮到评注点上可以查看详情。<div class="checkbox" style="float:right;line-height:40px;color:#333;padding-top:3px;"><label><input type="checkbox" id="hide_tip">隐藏标注</label></div></div>
+            <article id="post-4585" style="overflow:hidden;" class="post">
+              <div class="wrapper">
+                <div style="padding-top:0;" class="entry-content">
+                  <!--
+                  a.ad-blank(href="http://passport.lagou.com/landingPage.html?utm_source=AD__html-js&utm_medium=banner&utm_campaign=lp")
+                  img(src="http://htmljs.b0.upaiyun.com/uploads/1439192041460-7786e01e91744693f0cc2c15f7ce9ab3.png")
+                  
+                  --><h2>简言</h2>
+
+<p>理解WEB页面的生命周期，文档加载事件及顺序对WEB开发有十分的重要意义。如果不理解，在元素未加载就提前操作元素，则得不到想要的结果。而如果页面完全加载完成后，再进行操作，则又会影响用户体验。</p>
+
+<p>一般来说，大多数的操作我们都应该放在DOMContentLoaded事件中执行。采用如下形式：</p>
+
+<pre class=" language-javascript"><code class=" language-javascript">document<span class="token punctuation">.</span><span class="token function">addEventListener<span class="token punctuation">(</span></span><span class="token string">'DOMContentLoaded'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert<span class="token punctuation">(</span></span><span class="token string">"DOMContentLoaded"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>当初始的 HTML 文档被完全加载和解析完成之后，DOMContentLoaded 事件被触发，而无需等待样式表、图像和子框架的完成加载。</p>
+
+<h2>说明</h2>
+
+<p>理解WEB页面的生命周期，文档加载事件及顺序对WEB开发有十分的重要意义。用过JQuery都知道，我们大多将代码写在$(document).ready()中，当文档加载完成后，就会执行该函数。如果不这样做，在文档未加载完成之前操作DOM，就得不到想要的结果。</p>
+
+<h4>演示程序</h4>
+
+<pre class=" language-javascript"><code class=" language-javascript"><span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE HTML<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>html<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>head<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>title<span class="token operator">&gt;</span><span class="token number">42</span>度空间<span class="token operator">-</span>Html页面的生命周期<span class="token punctuation">,</span>DOMContentLoaded<span class="token punctuation">,</span>load<span class="token punctuation">,</span>beforeunload<span class="token punctuation">,</span>unload<span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>body<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"main"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>iframe src<span class="token operator">=</span><span class="token string">"http://res.42du.cn/static/html/iframe.html"</span> height<span class="token operator">=</span><span class="token string">"35"</span> onload<span class="token operator">=</span><span class="token string">"append('iframe onload')"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>iframe<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>div<span class="token operator">&gt;</span><span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"http://res.42du.cn/up/201802/cbbtiga6.jpg?cache=none"</span> onload<span class="token operator">=</span><span class="token string">"append('image onload')"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+    <span class="token keyword">var</span> output <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token keyword">function</span> <span class="token function">print<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        document<span class="token punctuation">.</span><span class="token function">getElementById<span class="token punctuation">(</span></span><span class="token string">"main"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">+</span><span class="token operator">=</span> output<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">function</span> <span class="token function">append<span class="token punctuation">(</span></span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        output <span class="token operator">+</span><span class="token operator">=</span> data<span class="token operator">+</span><span class="token string">" &lt;br /&gt;"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    document<span class="token punctuation">.</span><span class="token function">addEventListener<span class="token punctuation">(</span></span><span class="token string">'readystatechange'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">append<span class="token punctuation">(</span></span><span class="token string">"readyState : "</span><span class="token operator">+</span>document<span class="token punctuation">.</span>readyState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">addEventListener<span class="token punctuation">(</span></span><span class="token string">'DOMContentLoaded'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">append<span class="token punctuation">(</span></span><span class="token string">"DOMContentLoaded"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    window<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">append<span class="token punctuation">(</span></span><span class="token string">"window onload"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">append<span class="token punctuation">(</span></span><span class="token string">"script executed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">&gt;</span></code></pre>
+
+<p>从演示程序运行结果，得出一般浏览器的加载顺序如下：</p>
+
+<ul>
+<li>script executed   </li>
+<li>readyState : interactive</li>
+<li>DOMContentLoaded</li>
+<li>image onload</li>
+<li>iframe onload</li>
+<li>readyState : complete</li>
+<li>window onload </li>
+</ul>
+
+<p>从以上可以看出同步的Script总是先于其它事件执行，而window.onload事件总是最后执行。而image onload和iframe onload的先后顺序并不确定。</p>
+
+<h2>结论</h2>
+
+<p>关于WEB页面的生命周期，一般你应该记住如下这些观点，一些观点从运行结果中也可以得出。</p>
+
+<ul>
+<li><p>同步的JavaScript脚本最先执行，它先于DOMContentLoaded事件执行。</p></li>
+<li><p>当DOM准备就绪时，DOMContentLoaded事件在document上触发。 我们可以在这个阶段利用JavaScript来操作DOM元素。</p>
+
+<ul><li>所有脚本都执行完毕，除了那些外部使用异步（async）或延迟（defer）加载的脚本</li>
+<li>图片和其他资源可能仍在载入过程中。</li></ul></li>
+<li><p>window上的onload事件，在页面加载完所有资源后触发。 我们很少使用它，因为通常的操作不用等到最后才执行。</p></li>
+<li><p>window上的beforeunload事件，该事件在用户准备离开页面，在unload事件之前触发。 如果beforeunload返回一个字符串，浏览器会给出 用户是否真的想离开的提示。</p></li>
+<li><p>window上的unload事件，当用户最终离开时会触发该事件。在unload的事件处理程序中，我们只能做简单的事情，不涉及延迟或询问用户。 由于这个限制，它很少使用。</p></li>
+<li><p>document.readyState表示文档的当前状态，可以在readystatechange事件中跟踪文档状态的变更。</p>
+
+<ul><li>loading – 文档正在载入。</li>
+<li>interactive – document已经解析完毕时触发，几乎与DOMContentLoaded同时发生，但在DOMContentLoaded事件之前触发。</li>
+<li>complete – 文档和资源加载完成时触发，几乎与window.onload同时发生，但在onload事件之前触发。</li></ul></li>
+</ul>
+
+<p>一般来说，大多数的操作我们都应该放在DOMContentLoaded事件中执行，而不要放在window.onload中执行。</p>
+
+<p><a href="http://www.42du.cn/paper/26">42度空间-在线演示程序</a></p><script src="./WEB页面的生命周期_files/tuiku.js.下载"></script>
+                </div>
+                <div class="entry-meta">
+                  <p>本站专栏文章皆为原创，转载请注明出处（带有 前端乱炖 字样）和本文的显式链接(<a href="http://www.html-js.com/article/4585">http://www.html-js.com/article/4585</a>)，本站和作者保留随时要求删除文章的权利！</p>
+                </div>
+              </div>
+            <div class="tip-comments" style="display: none;"><ul class="comment-list"></ul><form class="tip-comment-form"><textarea placeholder="添加讨论…" class="tip-comment-textarea"></textarea><div class="form-control"><button class="tip-submit" type="submit">提交</button></div></form></div></article>
+            <div id="comment" class="comment module">
+              <div class="hd">评论</div>
+              <div class="bd">
+                <div class="publish">
+                  <textarea id="comment-text" placeholder="参与讨论。支持markdown语法" class="input-block-level"></textarea>
+                  <div id="comment-submit" class="btn comment-submit">发表评论</div>
+                </div>
+                <div class="comment-list">
+                  <div>暂无评论</div>
+                </div>
+                <script id="comment-tpl" type="text/template">
+                  <div class="comment-item clearfix"><a class="headpic"><img src="{{user_headpic}}" width="70" height="70"></a>
+                    <div class="comment-right">
+                      <div class="con"><span class="author vcard item"><a rel="author" href="/user/{{user_id}}" class="value url fn">{{user_nick}}：</a></span>
+                        <div class="html">{{{html}}}</div>
+                      </div>
+                      <div class="time">{{createdAt}}<a data-nick="{{user_nick}}" class="reply">回复</a></div>
+                    </div>
+                  </div>
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <!--
+          a.ad-blank(target="_blank",href="http://www.oneapm.com/bi/feature.html?utm_source=htmljs&utm_medium=billboard&utm_term=bi&utm_campaign=JulyTechAds&from=maadfisejs",style="width:100%;display:block;margin-top:20px;")
+            img(src="http://htmljs.b0.upaiyun.com/uploads/1436597035936-4450bd15970bac6348a570d12c151324.png")
+          -->
+          <div style="padding:0;margin-top:20px;" class="module"><img src="./WEB页面的生命周期_files/1417158556053-未标题-5.png"></div>
+          <div class="writer-and-column clearfix">
+            <div class="writer module">
+              <div class="hd">WRITTEN BY</div>
+              <!--a.head-pic(href="/user/#{writer.id}")-->
+              <!--  img(src='#{writer.head_pic}')-->
+              <div class="info"><a href="http://www.html-js.com/user/10550" class="nick">毛瑞</a>
+                <div class="desc">网站：三十课（www.30ke.cn），编程，学习，分享，记录生活的点点滴滴。</div><a href="http://weibo.cn/2456311670" target="_blank" class="weibo">TA的新浪微博</a>
+              </div>
+            </div>
+            <div class="column module">
+              <div class="hd">PUBLISHED IN</div>
+              <div class="info"><a href="http://www.html-js.com/article/column/4850" class="name">javascript</a>
+                <div class="desc"><p>javascript文章分享</p></div>
+                <div class="action"><a href="http://www.html-js.com/article/column/1/rss" class="rssit btn small-btn"><i class="rss social"></i> 订阅</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="other-articles module">
+            <div class="hd">本专栏其他文章</div>
+            <div class="bd">
+              <div class="item"><a href="http://www.html-js.com/article/6360">【专题】常用JavaScript正则表达式（regexp）汇编与示例</a>
+                <div class="others"><span class="time">时间:2019-04-25</span><span class="visit_count">浏览:507</span><span class="zan_count">赞:0</span></div>
+              </div>
+              <div class="item"><a href="http://www.html-js.com/article/4612">【从0到1】分步实现一个出生日期的正则表达式(JavaScript)</a>
+                <div class="others"><span class="time">时间:2018-03-21</span><span class="visit_count">浏览:1655</span><span class="zan_count">赞:0</span></div>
+              </div>
+              <div class="item"><a href="http://www.html-js.com/article/4607">基于规则评分的密码强度检测算法分析及实现(JavaScript)</a>
+                <div class="others"><span class="time">时间:2018-03-19</span><span class="visit_count">浏览:1071</span><span class="zan_count">赞:0</span></div>
+              </div>
+              <div class="item"><a href="http://www.html-js.com/article/4604">身份证号码的正则表达式及验证详解(JavaScript，Regex)</a>
+                <div class="others"><span class="time">时间:2018-03-14</span><span class="visit_count">浏览:3399</span><span class="zan_count">赞:0</span></div>
+              </div>
+              <div class="item"><a href="http://www.html-js.com/article/4602">邮箱/邮件地址的正则表达式及分析(JavaScript，email，regex)</a>
+                <div class="others"><span class="time">时间:2018-03-12</span><span class="visit_count">浏览:2275</span><span class="zan_count">赞:0</span></div>
+              </div>
+              <div class="item"><a href="http://www.html-js.com/article/4597">密码强度的正则表达式（JavaScript）总结</a>
+                <div class="others"><span class="time">时间:2018-03-09</span><span class="visit_count">浏览:2321</span><span class="zan_count">赞:0</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom-action module">
+            <div class="wrapper">
+              <div class="actions"><a href="javascript:void(0);" class="zan action"><i class="icon-thumbs-up"></i><em>赞</em> <span>0</span></a><span class="zanlogs"></span>
+              </div>
+              <div class="actions"><a href="javascript:void(0);" class="add_fav action"><em>收藏</em> <span>0</span></a>
+              </div>
+            </div>
+            <!--a.ad-blank(target="_blank",href="https://coding.net/marketing/codeinsight?hmsr=http%3A%2F%2Fwww.html-js.com%2F&hmmd=%E5%9B%BE%E7%89%87%E5%B9%BF%E5%91%8A&hmpl=CodeInsight&hmkw=&hmci=",style="width:280px;height:120px;display:block;")-->
+            <!--  img(src="http://htmljs.b0.upaiyun.com/uploads/1425371986895-coding.png")-->
+          </div>
+        </div>
+      </div>
+      <p>
+        <script id="bdshare_js" data="type=tools&amp;uid=2555549" src="./WEB页面的生命周期_files/bds_s_v2.js.下载"></script>
+        
+        <script type="text/javascript">
+        var bds_config={"bdText":"分享一篇@iFat3 的原创文章【WEB页面的生命周期,DOMContentLoaded,load,beforeunload,unload】来自@前端乱炖 专栏「javascript」 {{前端乱炖是国内最专业的前端知识原创内容社区}}","bdPic":"http://www.html-js.com/uploads/article_thumb/4585.png","snsKey":{'tsina':'659341943','tqq':'','t163':'','tsohu':''}}
+        document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+        </script>
+      </p>
+      <script id="tip_tpl" type="text/template">
+        {{#tips}}
+          <li class="ng-scope single-comment pin-comment">
+            <div class="comment-body ng-binding" >{{content}}</div>
+            <div class="comment-meta">
+              <span class="author-name ng-binding">— {{user_nick}} </span>
+              <time class="create-time" >{{time}}</time>
+            </div>
+          </li>
+          {{/tips}}
+      </script>
+    </div>
+    <script src="./WEB页面的生命周期_files/mustache.js.下载"></script>
+    <script src="./WEB页面的生命周期_files/messageTip.js.下载"></script><div class="message-tip" style="display: none;">欢迎光临</div>
+    <script src="./WEB页面的生命周期_files/loadingTip.js.下载"></script><div class="loading-tip">正在加载中。。。</div>
+    <script src="./WEB页面的生命周期_files/lazyload.js.下载"></script>
+    <script>
+      $(window).scroll(function(){
+        if($(window).scrollTop()+$(window).height()>=$(".comment").offset().top){
+          $(".comment-layer").addClass("hidden")
+        }else{
+        $(".comment-layer").removeClass("hidden")
+        }
+        })
+      $(".comment-layer").click(function(){
+        $("html,body").animate({
+          scrollTop:$(".comment").offset().top-200
+          })
+        $(".comment textarea").focus()
+        })
+      var comment_tpl = $("#comment-tpl").html()
+      //- loadingTip.show("评论加载中")
+      //- $.ajax({
+      //-   url:"/comment/article_4585",
+      //-   type:"get",
+      //-   dataType:"json",
+      //-   success:function(data){
+      //-     loadingTip.hide("正在提交中")
+      //-       if(data.success){
+      //-       for(var i=0;i<data.comments.length;i++){
+      //-       var comment = data.comments[i]
+      //-         var html = Mustache.render(comment_tpl,comment);
+      //-         $(".comment-list").append(html)
+      //-         $(".reply").click(function(){
+      //-   $("#comment-text").val("@"+$(this).attr("data-nick")+" ").focus()
+      //-    $("#comment-text")[0].setSelectionRange($("#comment-text")[0].value.length, $("#comment-text")[0].value.length)
+      //-   })
+      //-       }
+      //-       }else{
+      //-       alert(data.info)
+      //-       }
+      
+      //-   }
+      //-   })
+      $(".headpic img").lazyload();
+      $(".tooltip-trigger img").lazyload();
+      $(".reply").click(function(){
+        $("#comment-text").val("@"+$(this).attr("data-nick")+" ").focus()
+         $("#comment-text")[0].setSelectionRange($("#comment-text")[0].value.length, $("#comment-text")[0].value.length)
+        })
+      $("#comment-submit").click(function(){
+        var text = $("#comment-text").val();
+        if(!text){
+          messageTip.show("请输入评论内容");
+        }else{
+          loadingTip.show("正在提交中")
+           HtmlJS.util.ajax("/comment/add",{
+              md:text,
+              target_id:"article_4585"
+           },"post",function(data){
+              loadingTip.hide()
+                if(data.success){
+                $("#comment-text").val("")
+                var html = Mustache.render(comment_tpl,data.comment);
+                  $(".comment-list").prepend(html)
+                }else{
+                  alert(data.info)
+                }
+           },function(){
+           
+            },null,function(){
+            HtmlJS.util.ajax("/comment/add",{
+              md:text,
+              target_id:"article_4585"
+            },"post",function(data){
+              loadingTip.hide()
+                if(data.success){
+                $("#comment-text").val("")
+                var html = Mustache.render(comment_tpl,data.comment);
+                  $(".comment-list").prepend(html)
+                }else{
+                  alert(data.info)
+                }
+            },function(){
+            
+            },null,function(){
+            
+          })
+          })
+        }
+        })
+        
+        $(".zan").click(function(){
+          var self = this;
+            HtmlJS.util.ajax("/article/4585/zan",{
+              score:$(self).attr("data-index")
+            },"post",function(data){
+              loadingTip.hide()
+                if(data.success){
+                
+                  messageTip.show("成功！")
+                    $("em",self).html("已赞")
+                    $("span",self).html($("span",self).html()*1+1)
+                }else{
+                  alert(data.info)
+                }
+            },function(){
+            
+            },null,function(){
+            HtmlJS.util.ajax("/article/4585/zan",{
+              score:$(self).attr("data-index")
+            },"post",function(data){
+              loadingTip.hide()
+                if(data.success){
+                  messageTip.show("成功！")
+                    $("em",self).html("已赞")
+                    $("span",self).html($("span",self).html()*1+1)
+                }else{
+                  alert(data.info)
+                }
+            },function(){
+            
+            },null,function(){
+            
+          })
+          })
+          })
+          $('.user').tooltip({
+          placement:"bottom"
+          });
+          $(".add_fav").click(function(){
+            var self=this;
+            HtmlJS.util.ajax("/user/fav",{
+              uuid:"c4a4fa4f-43e2-47e2-a723-fc66041af051"
+            },"post",function(data){
+                loadingTip.hide()
+                if(data.success){
+                  messageTip.show("收藏成功！")
+                    $("em",self).html("已收藏")
+                     $("span",self).html($("span",self).html()*1+1)
+                }else{
+                  alert(data.info)
+                }
+            },function(){},null,function(){
+                HtmlJS.util.ajax("/user/fav",{
+                  uuid:"c4a4fa4f-43e2-47e2-a723-fc66041af051"
+                },"post",function(data){
+                    loadingTip.hide()
+                    if(data.success){
+                      messageTip.show("收藏成功！")
+                         $("em",self).html("已收藏")
+                          $("span",self).html($("span",self).html()*1+1)
+                    }else{
+                      alert(data.info)
+                    }
+                },function(){
+                })
+            })
+            });
+            $(document).ready(function(){
+                if($(window).width()>600){
+                  new Tip().init({
+                      selector:".post",
+                      url:"/tip/add",
+                      uuid:"4585"
+                  })
+                }
+                
+            })
+            
+    </script>
+    <div id="footer">
+      <div class="wrapper">
+        <div class="module support">
+          <div class="hd">赞助商</div>
+          <div class="bd">
+            <ul style="margin-left:0;" class="clearfix">
+              <li><a href="http://www.imooc.com/course/list?c=fe" target="_blank" title="免费的IT技能学习平台"><img src="./WEB页面的生命周期_files/1419232355686-未标题-1.png">
+                  <div class="desc">免费的IT技能学习平台</div></a></li>
+              <li class="hidden"><a href="https://www.upyun.com/" target="_blank"><img src="./WEB页面的生命周期_files/1385469219452-Snip20131126_10.png">
+                  <div class="desc">高速稳定的存储服务</div></a></li>
+              <li><a href="http://oneapm.com/" target="_blank" title="优秀的性能分析工具"><img src="./WEB页面的生命周期_files/1461145246085-01db76d06153cac4578ef04abf05dc05.jpg">
+                  <div class="desc">优秀的性能分析工具</div></a></li>
+              <li><a href="http://www.jiankongbao.com/"><img src="./WEB页面的生命周期_files/1413168456981-未标题-1.png">
+                  <div class="desc">端到端应用性能管理专家</div></a></li>
+              <li><a href="http://appcan.cn/"><img src="./WEB页面的生命周期_files/1423040565748-AppCan-logo蓝色.png">
+                  <div class="desc">一站式移动开发服务平台</div></a></li>
+              <li class="hidden"><a href="http://apicloud.com/"><img src="./WEB页面的生命周期_files/1423880680956-小logo.png">
+                  <div class="desc">重新定义移动应用开发</div></a></li>
+              <li><a href="https://www.upyun.com/"><img src="./WEB页面的生命周期_files/55a718a661d796fd31d924ed2a64e4ce.jpg">
+                  <div class="desc">领先企业级云服务商</div></a></li>
+            </ul>
+            <div class="add"><a href="http://www.html-js.com/topic/827">我也要赞助</a></div>
+          </div>
+        </div>
+        <div class="module">
+          <div style="font-size:12px;line-height:20px;">Power By NodeJS，本站所有代码的地址在<a href="https://github.com/xinyu198736/htmljs" target="_blank">这里</a>  <a href="http://www.beian.miit.gov.cn/">浙ICP备12047043号</a>  <a href="http://www.html-js.com/friendlink">友情链接</a>  <a href="https://f2e.souche.com/blog" target="_blank">大搜车前端团队博客</a></div>
+        </div>
+      </div>
+    </div>
+    <div id="coin-fixed"><span id="gotop"><i class="icon-airplane"></i></span><span class="my-favs"><i class="icon-heart"></i><a href="http://www.html-js.com/user/fav"> 我的收藏</a></span>
+    </div>
+    <script>
+      try{
+        $('.tooltip-trigger').tooltip({
+              placement:"bottom"
+              });
+      }catch(e){};
+      
+      
+      
+    </script>
+    <div class="hidden">
+      <script>
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F2fc2fae0509f820259c1760fce28d7d2' type='text/javascript'%3E%3C/script%3E"));
+        
+      </script><script src="./WEB页面的生命周期_files/h.js.下载" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=2fc2fae0509f820259c1760fce28d7d2" target="_blank"><img border="0" src="./WEB页面的生命周期_files/21.gif" width="20" height="20"></a>
+    </div>
+  
+</body></html>

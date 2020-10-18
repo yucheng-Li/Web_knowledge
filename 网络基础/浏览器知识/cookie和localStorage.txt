@@ -1,0 +1,33 @@
+1. cookie的介绍
+	（1）cookie是什么？
+		cookie是一个存在我们本地客户端的一个文件，它被设计来存储一些对于我们客户端和服务端之间
+	来说比较特殊的一些数据，比如用户的信息，用户密码什么的，这些数据也就是cookie既可以被我们
+	客户端调用又可以被我们的服务端调用，cookie就像一张表格，它的成员就是一个个键值对，我们客户端
+	和服务端都可以对这个这个表格里面的键值对进行增删改查
+	（2）为什么需要cookie？
+		因为像这些特殊的信息其实就可以保存在我们本地，服务端也可以调用本地也可以调用，这样就不必
+	交给服务端来保存来分担服务端的压力，而且服务端想要在海量的用户数据中找到唯一的用户数据是一件
+	极其耗费资源的事情
+	
+2. LocalStorage的介绍
+	（1）what is LocalStorage
+		LocalStorage is also a way to store data on the client's computer, it like cookie. But it can only by accessed
+	via JavaScript and HTML5, and then LocalStorage providing more space about 5MB to cookie only 4KB ;
+	除了localStorage之外，对于每个HTTP请求(HTML、图像、JavaScript、CSS等)，数据不会发送回服务器，
+	这就减少了客户机和服务器之间的通信量。最后，它适用于同源策略，因此存储的数据只能在同一源上可用。
+	
+总结一下 ：Differences between Cookie and LocalStorage 
+		Cookie and LocalStorage 的服务对象有所区别，Cookie主要服务于服务端而LocalStorage主要服务于客户端
+	LocalStorage 比 Cookie 拥有更大的存储空间， 而 LocalStorage 也拥有更多的功能，因此使用 LocalStorage 还是
+	Cookie 就取决于你设计的应用中谁需要这些数据 ? server or client
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

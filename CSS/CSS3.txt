@@ -1,0 +1,50 @@
+1. CSS3 边框
+	border-radius // 圆角
+	box-shadow // 边框阴影
+	border-image // 边框图片
+	
+2. CSS3 背景
+	background-size  // 规定背景图片的尺寸。  CSS3 之前，背景图片的尺寸是由图片的实际尺寸决定的。在 CSS3 中，可以规定背景图片的尺寸，这就允许我们在不同的环境中重复使用背景图片。能够以像素或百分比规定尺寸, 如果以百分比规定尺寸，那么尺寸相对于父元素的宽度和高度。
+	background-origin // 属性规定背景图片的定位区域, 背景图片可以放置于 content-box、padding-box 或 border-box 区域
+	CSS3 多重背景图片 - > background-image:url( bg_flower.gif ),url( bg_flower_2.gif );
+	background-clip 属性规定背景的绘制区域 background-origin 是背景图片的绘制区域
+
+3. CSS3 文本
+	text-shadow // 可向文本应用阴影。 text-shadow: 5px 5px 5px #FF0000;
+	word-wrap //  word-wrap 属性允许您允许文本强制文本进行换行
+	
+4. CSS3字体
+	@font-face
+	{
+	font-family: myFirstFont; //在 CSS3 之前，web 设计师必须使用已在用户计算机上安装好的字体。
+	src: url('Sansation_Light.ttf'), // 通过 CSS3，web 设计师可以使用他们喜欢的任意字体。	
+		 url('Sansation_Light.eot'); /* IE9+ */ //当您您找到或购买到希望使用的字体时，可将该字体文件存放到 web 服务器上，它会在需要时被自动下载到用户的计算机上。	
+	} // 您“自己的”的字体是在 CSS3 @font-face 规则中定义的。
+	
+5. CSS3 2D转换
+	2D转换： 对元素进行移动、缩放、转动、拉长或拉伸。
+	translate() //元素从其当前位置移动，根据给定的 left（x 坐标） 和 top（y 坐标）	
+	rotate() //元素顺时针旋转给定的角度。允许负值，元素将逆时针旋转。
+	scale() //元素的尺寸会增加或减少，根据给定的宽度（X 轴）和高度（Y 轴）参数：
+	skew() // 元素翻转给定的角度，根据给定的水平线（X 轴）和垂直线（Y 轴）参数：
+	matrix()	 //把所有 2D 转换方法组合在一起。
+	
+6. CSS3 3D转换
+	rotateX() // 元素围绕其 X 轴以给定的度数进行旋转。
+    rotateY()  // 元素围绕其 Y 轴以给定的度数进行旋转。
+	
+7. CSS3过渡
+	transition:  width 2s; 从一种样式逐渐改变为另一种的效果	
+	animation: myfirst 5s;
+	
+8. CSS3 多列
+	column-count // 属性规定元素应该被分隔的列数：
+	column-gap  //  属性规定列之间的间隔：
+	column-rule  // 属性设置列之间的宽度、样式和颜色规则
+
+9. CSS3 用户界面
+	resize  // resize 属性规定是否可由用户调整元素尺寸
+	box-sizing  // 属性允许您以确切的方式定义适应某个区域的具体内容
+	outline-offset  //  属性对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓
+		
+	

@@ -1,0 +1,76 @@
+1. Css加载会造成Dom树阻塞吗?
+		css加载不会阻塞DOM树的解析、css加载会阻塞DOM树的渲染、css加载会阻塞后面js语句的执行
+	DOM解析和CSS解析是两个并行的进程，所以这也解释了为什么CSS加载不会阻塞DOM的解析
+	由于Render Tree是依赖于DOM Tree和CSSOM Tree的，所以他必须等待到CSSOM Tree构建完成，
+	也就是CSS资源加载完成(或者CSS资源加载失败)后，才能开始渲染。因此，CSS加载是会阻塞Dom的渲染的
+	由于js可能会操作之前的Dom节点和css样式，因此浏览器会维持html中css和js的顺序。
+	因此，样式表会在后面的js执行前先加载执行完毕。所以css会阻塞后面js的执行
+
+2. id选择器的优先级最高，权重最高
+
+3. 总结那些有默认margin,padding值的html标签
+	一. h1~h6标签：有默认margin（top,bottom且相同）值，没有默认padding值。
+	二. dl标签：有默认margin（top,bottom且相同）值，没有默认padding值。
+	三. ol,ul标签：有默认margin-（top,bottom且相同）值，有默认padding-left值
+	四. table标签没有默认的margin,padding值；th,td标签没有默认的margin值，有默认的padding值。
+	五. form标签在Chrome,Firefox,Safari,Opera,Maxthon,IE8.0中没有默认的margin,padding值，但在IE6.0,7.0中有默认的margin：19px 0px;
+	六. p标签有默认margin(top,bottom)值,没有默认padding值
+	七. textarea标签在上述所有浏览器中：margin:2px；padding:2px；
+	八. select标签在Chrome,Safari,Maxthon中有默认的margin：2px；在Opera,Firefox,IE6.0,7.0,8.0没有默认的margin值。
+	九. body \ img 也默认有
+	
+4. 容器宽高不设置的话默认是 100%
+
+5. css盒模型，块之间共享垂直外边距margin，margin取其大。
+
+6. block:将行级别元素转为块级别元素
+    inline:将块级别元素转为行级别元素
+    inline-block:不能自动换行,但是可以设置宽高
+
+	常见的块级元素：div , h1---h6 , p , ul , ol , dl , table , form
+	常见的行内元素：span , a  ,strong  ,b ,em  , i  , big  ,small  ,label ,img , input  , select ,textarea
+	* 行内元素无法设置大小 *
+	但,img , input  , select ,textarea是行内置换元素，内容不受CSS视觉格式化模型控制，CSS渲染模型并不考虑对此内容的渲染，且元素本身一般拥有固有尺寸（宽度，高度，宽高比）的元素，被称之为置换元素。
+	
+	注： p标签是块级元素，常理来说，块级元素是可以嵌套块级元素和行内元素的，但是p标签是个特殊，它里面不能嵌套块级元素。
+	
+7.  > 选择器是直系后代，在 DOM 中  <strong> 标签和 <div id="content"></div> 中间还隔了一层 <span> 标签	
+
+8. 锚伪类
+	在支持 CSS 的浏览器中，链接的不同状态都可以不同的方式显示，这些状态包括：活动状态，已被访问状态，未被访问状态，和鼠标悬停状态。
+	a:link{color: #FF0000}/* 未访问的链接 */
+	a:visited{color: #00FF00}/* 已访问的链接 */
+	a:hover{color: #FF00FF}/* 鼠标移动到链接上 */
+	a:active{color: #0000FF}/* 选定的链接 */
+	在 CSS 定义中，a:hover 必须被置于 a:link 和 a:visited 之后，才是有效的。
+	在 CSS 定义中，a:active 必须被置于 a:hover 之后，才是有效的。
+	伪类名称对大小写不敏感。
+	
+9. 在class中可以定义:hover伪类，在id中不能定义
+
+10. CSS选择器
+	 ，（逗号分隔符被称为群选择器可以选择多个元素）
+	 
+11. link标签是同时加载的 script标签才会加载完一个再加载另一个
+
+12. ‘百分数和外边距’说明：“百分数是相对于父元素的width计算的，所以如果父元素的width以某种方式发生变化，百分数也会变化”。
+
+13. translate不会触发重布局
+	我们通过节点的transform可以修改节点的位置、旋转、大小等。我们平常会使用left和top属性来修改节点的位置，
+	但正如上面所述，left和top会触发重布局，修改时的代价相当大。取而代之的更好方法是使用translate，这个不会触发重布局
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

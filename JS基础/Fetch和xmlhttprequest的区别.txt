@@ -1,0 +1,18 @@
+	为什么要用Fetch？
+		以现代软件工程的角度来看，XHR 的整个设计非常混乱，将 request、response 和事件监听混在一个对象里，
+		并且需要通过实例化才能够发送请求（后面我们通过实际代码来演示）。
+		这带来的问题是在实际使用过程中配置和调用方式没有组织和可维护性（注意，这在 web 应用比较简单的时候不构成问题）。
+		用架构的术语来讲，XHR 不符合关注点分离原则（SOC），SOC 原则期望在设计系统时候能够将系统元素分离开来，
+		尽量保持各个元素的职责单一（比如 TCP/IP 协议簇的分层、经典 MVC 架构都是 SOC 原则的经典体现）。
+	
+	那么怎么使用Fetch呢？看这篇文章https://juejin.im/post/6844903477978595336
+	function fetchData() {
+            fetch('https://api.github.com/users/chriscoyier/repos')
+            .then(response => response.json())   //  文章中解释了为什么获取数据的第一步要用response，因为直接返回的Promise 是一个body{ } 状态里面包含了
+            .then(data => {									// 很多返回的状态信息，但我们想要获取的数据却无法直接体现，Github返回的响应是JSON格式的，所以调用response.json方法来转换数据。
+              // data就是我们请求的repos			// 之后经过我们的数据转换我们就可以直接通过data来获取我们的数据
+              console.log(data)
+            });
+        }
+	
+

@@ -1,0 +1,7 @@
+//详细地址 https://www.ruanyifeng.com/blog/2019/11/css-position.html
+1. Position属性
+	position属性一共有5种定位方式：static、relative 、fixed、absolute、sticky
+	（1）static 
+		是position的默认值，如果省略position属性那么默认就是static布局，浏览器按照源码的顺序来决定每个元素的位置
+	元素不产生重叠按照正常的页面流进行，因为static的定位是由浏览器决定的因此 top、bottom、left、right这四个属性无效;
+	

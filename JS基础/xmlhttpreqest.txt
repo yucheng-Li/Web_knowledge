@@ -1,0 +1,31 @@
+// 1. 新建一个xmlhttprequest请求对象
+var request = new XMLHttpRequest();
+
+//2. 发送请求
+request.open('GET', '/api/categories');
+request.send();
+
+function success(text) {
+    var textarea = document.getElementById('text-response-text');
+    textarea.value = text;
+}
+
+function fail(code) {
+    var textarea = document.getElementById('text-response-text');
+    textarea.value = 'Error code : '+ code
+}   
+
+
+//3. 响应状态判断
+request.onreadystatechange = function () {
+    if(request.readyState === 4) { //响应成功
+        if(request.status === 200) {
+            return success(request.responseText);
+        }
+        else {
+            return fail(request.status);
+        }
+    }else {
+        //continue
+    }
+}

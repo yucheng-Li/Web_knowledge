@@ -1,0 +1,2675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" /-->
+<link rel="start" href="http://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="http://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="http://www.ruanyifeng.com/blog/mt.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2020/09/weekly-issue-127.html">
+<dc:title>科技爱好者周刊（第 127 期）：未来人人开发软件，几乎没人编码</dc:title>
+<dc:description>这里记录每周值得分享的科技内容，周五发布。（ 本周五是十一假期，周刊提前到周三发布。）...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2020-09-30T08:38:45+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+<style>
+body {
+  background-color: #f5f5d5;
+}
+
+#container::before {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+  text-align: center;
+  content: "本站显示不正常，可能因为您使用了广告拦截器。";
+}
+
+</style>
+<script>
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+//loadjscssfile("http://www.ruanyifeng.com/blog/styles.css", "css");
+loadjscssfile('/static/themes/theme_scrapbook/theme_scrapbook.min.css', "css");
+
+
+function checker() {
+// var img = document.querySelector('img[src^="http://www.ruanyifeng.com/blog/images"]');
+var img = document.querySelector('a > img[src*="wangbase.com/blogimg/asset/"]');
+  if (img && window.getComputedStyle(img).display === 'none'){
+    var sponsor = document.querySelector('.entry-sponsor');
+    var prompt = document.createElement('div');
+    prompt.style = 'border: 1px solid #c6c6c6;border-radius: 4px;background-color: #f5f2f0;padding: 15px; font-size: 14px;';
+  prompt.innerHTML = '<p>您使用了广告拦截器，导致本站内容无法显示。</p><p>请将 www.ruanyifeng.com 加入白名单，解除广告屏蔽后，刷新页面。谢谢。</p>';
+    sponsor.parentNode.replaceChild(prompt, sponsor);
+    document.querySelector('#main-content').innerHTML = '';
+  }
+}
+
+setTimeout(checker, 1000);
+</script>
+
+    
+    <link rel="prev" href="http://www.ruanyifeng.com/blog/2018/07/weekly-issue-12.html" title="每周分享第 12 期" />
+    <link rel="next" href="http://www.ruanyifeng.com/blog/2018/07/my-books.html" title="关于《未来世界的幸存者》" />
+    
+    <title>Web Worker 使用教程 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+/*
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#cre-inner');
+  }, 1000);
+});
+*/
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a href="http://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a href="http://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="https://www.baidu.com/s" target="_blank" method="get" id="cse-search-box">
+  <div>
+  <input type="text" size="20" name="origin" class="searchbox" id="sbi" value="" />
+  <input type="hidden" name="wd" value="" />
+  <!--input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' inurl:www.ruanyifeng.com/blog'" /-->
+  <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa" onclick="this.form.wd.value = this.form.origin.value + ' 阮一峰'" />
+</div>
+</form>
+
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html" title="订阅Feed">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1999" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a href="http://www.ruanyifeng.com/blog/2018/07/weekly-issue-12.html" title="每周分享第 12 期">每周分享第&nbsp;12&nbsp;期&nbsp;</a></li>
+<li>下一篇：<a href="http://www.ruanyifeng.com/blog/2018/07/my-books.html" title="关于《未来世界的幸存者》">关于《未来世界的幸存者</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a href="http://www.ruanyifeng.com/blog/javascript/" rel="tag">JavaScript</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+<div class="entry-location-mobile" style="float: right;">
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2018/07/weekly-issue-12.html" title="每周分享第 12 期">⇐&nbsp;</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2018/07/my-books.html" title="关于《未来世界的幸存者》">&nbsp;⇒</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+
+                          
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">Web Worker 使用教程</h1>
+                                            <div id="share_button" class="social-share" style="float:right;padding-right:2em;padding-top:1em;"></div>
+
+<div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" href="http://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a href="http://www.ruanyifeng.com/blog/2018/07/"><abbr class="published" title="2018-07-08T20:59:46+08:00">2018年7月 8日</abbr></a></p>
+
+
+</div>
+
+
+
+
+
+
+
+
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <h2>一、概述</h2>
+
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>JavaScript 语言采用的是单线程模型，也就是说，所有任务只能在一个线程上完成，一次只能做一件事。前面的任务没做完，后面的任务只能等着。随着电脑计算能力的增强，尤其是多核 CPU 的出现，单线程带来很大的不便，无法充分发挥计算机的计算能力。</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/201807/bg2018070801.png" alt="" title="" /></p>
+
+<p>Web Worker 的作用，就是为 JavaScript 创造多线程环境，允许主线程创建 Worker 线程，将一些任务分配给后者运行。在主线程运行的同时，Worker 线程在后台运行，两者互不干扰。等到 Worker 线程完成计算任务，再把结果返回给主线程。这样的好处是，一些计算密集型或高延迟的任务，被 Worker 线程负担了，主线程（通常负责 UI 交互）就会很流畅，不会被阻塞或拖慢。</p>
+
+<p>Worker 线程一旦新建成功，就会始终运行，不会被主线程上的活动（比如用户点击按钮、提交表单）打断。这样有利于随时响应主线程的通信。但是，这也造成了 Worker 比较耗费资源，不应该过度使用，而且一旦使用完毕，就应该关闭。</p>
+
+<p>Web Worker 有以下几个使用注意点。</p>
+
+<p>（1）<strong>同源限制</strong></p>
+
+<p>分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。</p>
+
+<p>（2）<strong>DOM 限制</strong></p>
+
+<p>Worker 线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的 DOM 对象，也无法使用<code>document</code>、<code>window</code>、<code>parent</code>这些对象。但是，Worker 线程可以<code>navigator</code>对象和<code>location</code>对象。</p>
+
+<p>（3）<strong>通信联系</strong></p>
+
+<p>Worker 线程和主线程不在同一个上下文环境，它们不能直接通信，必须通过消息完成。</p>
+
+<p>（4）<strong>脚本限制</strong></p>
+
+<p>Worker 线程不能执行<code>alert()</code>方法和<code>confirm()</code>方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求。</p>
+
+<p>（5）<strong>文件限制</strong></p>
+
+<p>Worker 线程无法读取本地文件，即不能打开本机的文件系统（<code>file://</code>），它所加载的脚本，必须来自网络。</p>
+
+<h2>二、基本用法</h2>
+
+<h3>2.1 主线程</h3>
+
+<p>主线程采用<code>new</code>命令，调用<code>Worker()</code>构造函数，新建一个 Worker 线程。</p>
+
+<blockquote><pre><code class="language-javascript">
+var worker = new Worker('work.js');
+</code></pre></blockquote>
+
+<p><code>Worker()</code>构造函数的参数是一个脚本文件，该文件就是 Worker 线程所要执行的任务。由于 Worker 不能读取本地文件，所以这个脚本必须来自网络。如果下载没有成功（比如404错误），Worker 就会默默地失败。</p>
+
+<p>然后，主线程调用<code>worker.postMessage()</code>方法，向 Worker 发消息。</p>
+
+<blockquote><pre><code class="language-javascript">
+worker.postMessage('Hello World');
+worker.postMessage({method: 'echo', args: ['Work']});
+</code></pre></blockquote>
+
+<p><code>worker.postMessage()</code>方法的参数，就是主线程传给 Worker 的数据。它可以是各种数据类型，包括二进制数据。</p>
+
+<p>接着，主线程通过<code>worker.onmessage</code>指定监听函数，接收子线程发回来的消息。</p>
+
+<blockquote><pre><code class="language-javascript">
+worker.onmessage = function (event) {
+  console.log('Received message ' + event.data);
+  doSomething();
+}
+
+function doSomething() {
+  // 执行任务
+  worker.postMessage('Work done!');
+}
+</code></pre></blockquote>
+
+<p>上面代码中，事件对象的<code>data</code>属性可以获取 Worker 发来的数据。</p>
+
+<p>Worker 完成任务以后，主线程就可以把它关掉。</p>
+
+<blockquote><pre><code class="language-javascript">
+worker.terminate();
+</code></pre></blockquote>
+
+<h3>2.2 Worker 线程</h3>
+
+<p>Worker 线程内部需要有一个监听函数，监听<code>message</code>事件。</p>
+
+<blockquote><pre><code class="language-javascript">
+self.addEventListener('message', function (e) {
+  self.postMessage('You said: ' + e.data);
+}, false);
+</code></pre></blockquote>
+
+<p>上面代码中，<code>self</code>代表子线程自身，即子线程的全局对象。因此，等同于下面两种写法。</p>
+
+<blockquote><pre><code class="language-javascript">
+// 写法一
+this.addEventListener('message', function (e) {
+  this.postMessage('You said: ' + e.data);
+}, false);
+
+// 写法二
+addEventListener('message', function (e) {
+  postMessage('You said: ' + e.data);
+}, false);
+</code></pre></blockquote>
+
+<p>除了使用<code>self.addEventListener()</code>指定监听函数，也可以使用<code>self.onmessage</code>指定。监听函数的参数是一个事件对象，它的<code>data</code>属性包含主线程发来的数据。<code>self.postMessage()</code>方法用来向主线程发送消息。</p>
+
+<p>根据主线程发来的数据，Worker 线程可以调用不同的方法，下面是一个例子。</p>
+
+<blockquote><pre><code class="language-javascript">
+self.addEventListener('message', function (e) {
+  var data = e.data;
+  switch (data.cmd) {
+    case 'start':
+      self.postMessage('WORKER STARTED: ' + data.msg);
+      break;
+    case 'stop':
+      self.postMessage('WORKER STOPPED: ' + data.msg);
+      self.close(); // Terminates the worker.
+      break;
+    default:
+      self.postMessage('Unknown command: ' + data.msg);
+  };
+}, false);
+</code></pre></blockquote>
+
+<p>上面代码中，<code>self.close()</code>用于在 Worker 内部关闭自身。</p>
+
+<h3>2.3 Worker 加载脚本</h3>
+
+<p>Worker 内部如果要加载其他脚本，有一个专门的方法<code>importScripts()</code>。</p>
+
+<blockquote><pre><code class="language-javascript">
+importScripts('script1.js');
+</code></pre></blockquote>
+
+<p>该方法可以同时加载多个脚本。</p>
+
+<blockquote><pre><code class="language-javascript">
+importScripts('script1.js', 'script2.js');
+</code></pre></blockquote>
+
+<h3>2.4 错误处理</h3>
+
+<p>主线程可以监听 Worker 是否发生错误。如果发生错误，Worker 会触发主线程的<code>error</code>事件。</p>
+
+<blockquote><pre><code class="language-javascript">
+worker.onerror(function (event) {
+  console.log([
+    'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message
+  ].join(''));
+});
+
+// 或者
+worker.addEventListener('error', function (event) {
+  // ...
+});
+</code></pre></blockquote>
+
+<p>Worker 内部也可以监听<code>error</code>事件。</p>
+
+<h3>2.5 关闭 Worker</h3>
+
+<p>使用完毕，为了节省系统资源，必须关闭 Worker。</p>
+
+<blockquote><pre><code class="language-javascript">
+// 主线程
+worker.terminate();
+
+// Worker 线程
+self.close();
+</code></pre></blockquote>
+
+<h2>三、数据通信</h2>
+
+<p>前面说过，主线程与 Worker 之间的通信内容，可以是文本，也可以是对象。需要注意的是，这种通信是拷贝关系，即是传值而不是传址，Worker 对通信内容的修改，不会影响到主线程。事实上，浏览器内部的运行机制是，先将通信内容串行化，然后把串行化后的字符串发给 Worker，后者再将它还原。</p>
+
+<p>主线程与 Worker 之间也可以交换二进制数据，比如 File、Blob、ArrayBuffer 等类型，也可以在线程之间发送。下面是一个例子。</p>
+
+<blockquote><pre><code class="language-javascript">
+// 主线程
+var uInt8Array = new Uint8Array(new ArrayBuffer(10));
+for (var i = 0; i &lt; uInt8Array.length; ++i) {
+  uInt8Array[i] = i * 2; // [0, 2, 4, 6, 8,...]
+}
+worker.postMessage(uInt8Array);
+
+// Worker 线程
+self.onmessage = function (e) {
+  var uInt8Array = e.data;
+  postMessage('Inside worker.js: uInt8Array.toString() = ' + uInt8Array.toString());
+  postMessage('Inside worker.js: uInt8Array.byteLength = ' + uInt8Array.byteLength);
+};
+</code></pre></blockquote>
+
+<p>但是，拷贝方式发送二进制数据，会造成性能问题。比如，主线程向 Worker 发送一个 500MB 文件，默认情况下浏览器会生成一个原文件的拷贝。为了解决这个问题，JavaScript 允许主线程把二进制数据直接转移给子线程，但是一旦转移，主线程就无法再使用这些二进制数据了，这是为了防止出现多个线程同时修改数据的麻烦局面。这种转移数据的方法，叫做<a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#transferable-objects">Transferable Objects</a>。这使得主线程可以快速把数据交给 Worker，对于影像处理、声音处理、3D 运算等就非常方便了，不会产生性能负担。</p>
+
+<p>如果要直接转移数据的控制权，就要使用下面的写法。</p>
+
+<blockquote><pre><code class="language-javascript">
+// Transferable Objects 格式
+worker.postMessage(arrayBuffer, [arrayBuffer]);
+
+// 例子
+var ab = new ArrayBuffer(1);
+worker.postMessage(ab, [ab]);
+</code></pre></blockquote>
+
+<h2>四、同页面的 Web Worker</h2>
+
+<p>通常情况下，Worker 载入的是一个单独的 JavaScript 脚本文件，但是也可以载入与主线程在同一个网页的代码。</p>
+
+<blockquote><pre><code class="language-markup">
+&lt;!DOCTYPE html>
+  &lt;body>
+    &lt;script id="worker" type="app/worker">
+      addEventListener('message', function () {
+        postMessage('some message');
+      }, false);
+    &lt;/script>
+  &lt;/body>
+&lt;/html>
+</code></pre></blockquote>
+
+<p>上面是一段嵌入网页的脚本，注意必须指定<code>&lt;script&gt;</code>标签的<code>type</code>属性是一个浏览器不认识的值，上例是<code>app/worker</code>。</p>
+
+<p>然后，读取这一段嵌入页面的脚本，用 Worker 来处理。</p>
+
+<blockquote><pre><code class="language-javascript">
+var blob = new Blob([document.querySelector('#worker').textContent]);
+var url = window.URL.createObjectURL(blob);
+var worker = new Worker(url);
+
+worker.onmessage = function (e) {
+  // e.data === 'some message'
+};
+</code></pre></blockquote>
+
+<p>上面代码中，先将嵌入网页的脚本代码，转成一个二进制对象，然后为这个二进制对象生成 URL，再让 Worker 加载这个 URL。这样就做到了，主线程和 Worker 的代码都在同一个网页上面。</p>
+
+<h2>五、实例：Worker 线程完成轮询</h2>
+
+<p>有时，浏览器需要轮询服务器状态，以便第一时间得知状态改变。这个工作可以放在 Worker 里面。</p>
+
+<blockquote><pre><code class="language-javascript">
+function createWorker(f) {
+  var blob = new Blob(['(' + f.toString() +')()']);
+  var url = window.URL.createObjectURL(blob);
+  var worker = new Worker(url);
+  return worker;
+}
+
+var pollingWorker = createWorker(function (e) {
+  var cache;
+
+  function compare(new, old) { ... };
+
+  setInterval(function () {
+    fetch('/my-api-endpoint').then(function (res) {
+      var data = res.json();
+
+      if (!compare(data, cache)) {
+        cache = data;
+        self.postMessage(data);
+      }
+    })
+  }, 1000)
+});
+
+pollingWorker.onmessage = function () {
+  // render data
+}
+
+pollingWorker.postMessage('init');
+</code></pre></blockquote>
+
+<p>上面代码中，Worker 每秒钟轮询一次数据，然后跟缓存做比较。如果不一致，就说明服务端有了新的变化，因此就要通知主线程。</p>
+
+<h2>六、实例： Worker 新建 Worker</h2>
+
+<p>Worker 线程内部还能再新建 Worker 线程（目前只有 Firefox 浏览器支持）。下面的例子是将一个计算密集的任务，分配到10个 Worker。</p>
+
+<p>主线程代码如下。</p>
+
+<blockquote><pre><code class="language-javascript">
+var worker = new Worker('worker.js');
+worker.onmessage = function (event) {
+  document.getElementById('result').textContent = event.data;
+};
+</code></pre></blockquote>
+
+<p>Worker 线程代码如下。</p>
+
+<blockquote><pre><code class="language-javascript">
+// worker.js
+
+// settings
+var num_workers = 10;
+var items_per_worker = 1000000;
+
+// start the workers
+var result = 0;
+var pending_workers = num_workers;
+for (var i = 0; i &lt; num_workers; i += 1) {
+  var worker = new Worker('core.js');
+  worker.postMessage(i * items_per_worker);
+  worker.postMessage((i + 1) * items_per_worker);
+  worker.onmessage = storeResult;
+}
+
+// handle the results
+function storeResult(event) {
+  result += event.data;
+  pending_workers -= 1;
+  if (pending_workers &lt;= 0)
+    postMessage(result); // finished!
+}
+</code></pre></blockquote>
+
+<p>上面代码中，Worker 线程内部新建了10个 Worker 线程，并且依次向这10个 Worker 发送消息，告知了计算的起点和终点。计算任务脚本的代码如下。</p>
+
+<blockquote><pre><code class="language-javascript">
+// core.js
+var start;
+onmessage = getStart;
+function getStart(event) {
+  start = event.data;
+  onmessage = getEnd;
+}
+
+var end;
+function getEnd(event) {
+  end = event.data;
+  onmessage = null;
+  work();
+}
+
+function work() {
+  var result = 0;
+  for (var i = start; i &lt; end; i += 1) {
+    // perform some complex calculation here
+    result += 1;
+  }
+  postMessage(result);
+  close();
+}
+</code></pre></blockquote>
+
+<h2>七、API</h2>
+
+<h3>7.1 主线程</h3>
+
+<p>浏览器原生提供<code>Worker()</code>构造函数，用来供主线程生成 Worker 线程。</p>
+
+<blockquote><pre><code class="language-javascript">
+var myWorker = new Worker(jsUrl, options);
+</code></pre></blockquote>
+
+<p><code>Worker()</code>构造函数，可以接受两个参数。第一个参数是脚本的网址（必须遵守同源政策），该参数是必需的，且只能加载 JS 脚本，否则会报错。第二个参数是配置对象，该对象可选。它的一个作用就是指定 Worker 的名称，用来区分多个 Worker 线程。</p>
+
+<blockquote><pre><code class="language-javascript">
+// 主线程
+var myWorker = new Worker('worker.js', { name : 'myWorker' });
+
+// Worker 线程
+self.name // myWorker
+</code></pre></blockquote>
+
+<p><code>Worker()</code>构造函数返回一个 Worker 线程对象，用来供主线程操作 Worker。Worker 线程对象的属性和方法如下。</p>
+
+<blockquote>
+  <ul>
+<li>Worker.onerror：指定 error 事件的监听函数。</li>
+<li>Worker.onmessage：指定 message 事件的监听函数，发送过来的数据在<code>Event.data</code>属性中。</li>
+<li>Worker.onmessageerror：指定 messageerror 事件的监听函数。发送的数据无法序列化成字符串时，会触发这个事件。</li>
+<li>Worker.postMessage()：向 Worker 线程发送消息。</li>
+<li>Worker.terminate()：立即终止 Worker 线程。</li>
+</ul>
+</blockquote>
+
+<h3>7.2 Worker 线程</h3>
+
+<p>Web Worker 有自己的全局对象，不是主线程的<code>window</code>，而是一个专门为 Worker 定制的全局对象。因此定义在<code>window</code>上面的对象和方法不是全部都可以使用。</p>
+
+<p>Worker 线程有一些自己的全局属性和方法。</p>
+
+<blockquote>
+  <ul>
+<li>self.name： Worker 的名字。该属性只读，由构造函数指定。</li>
+<li>self.onmessage：指定<code>message</code>事件的监听函数。</li>
+<li>self.onmessageerror：指定 messageerror 事件的监听函数。发送的数据无法序列化成字符串时，会触发这个事件。</li>
+<li>self.close()：关闭 Worker 线程。</li>
+<li>self.postMessage()：向产生这个 Worker 线程发送消息。</li>
+<li>self.importScripts()：加载 JS 脚本。</li>
+</ul>
+</blockquote>
+
+<p>（完）</p>
+
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2018-07-08T20:59:46+08:00">2018年7月 8日</abbr></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+
+
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2020.09.15: <a href="http://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html">轻松学会 React 钩子：以  useEffect() 为例</a></strong>
+
+                           <div class="entry-body">
+                              五年多前，我写过 React 系列教程。不用说，内容已经有些过时了。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2020.08.20: <a href="http://www.ruanyifeng.com/blog/2020/08/how-nodejs-use-es6-module.html">Node.js 如何处理 ES6 模块</a></strong>
+
+                           <div class="entry-body">
+                              学习 JavaScript 语言，你会发现它有两种格式的模块。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2020.01.26: <a href="http://www.ruanyifeng.com/blog/2020/01/deno-intro.html">Deno 运行时入门教程：Node.js 的替代品</a></strong>
+
+                           <div class="entry-body">
+                              这几天假期，我学习了一下 Deno。它是 Node.js 的替代品。有了它，将来可能就不需要 Node.js 了。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2019.09.01: <a href="http://www.ruanyifeng.com/blog/2019/09/react-hooks.html">React Hooks 入门教程</a></strong>
+
+                           <div class="entry-body">
+                              React 是主流的前端框架，v16.8 版本引入了全新的 API，叫做 React Hooks，颠覆了以前的用法。
+
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（48条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-390672" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://www.liuhaolin.com" href="https://www.liuhaolin.com" target="_blank" rel="nofollow">森林</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390672">
+            <p>感觉学好js，需要的知识面越来越多了，虽然看的不是很懂吧，也了解了些新东西。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018 12:16 AM">2018年7月 9日 00:16</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390672">#</a>
+ | <a href="#comment-text" title="引用森林的这条留言" onclick="return CommentQuote('comment-quote-390672','森林');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390683" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">无名</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390683">
+            <p>赞，想了解下 实际项目上的使用场景！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018  9:19 AM">2018年7月 9日 09:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390683">#</a>
+ | <a href="#comment-text" title="引用无名的这条留言" onclick="return CommentQuote('comment-quote-390683','无名');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390697" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">wZi</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390697">
+            <blockquote>
+<pre>引用无名的发言：</pre>
+
+<p>赞，想了解下 实际项目上的使用场景！</p>
+
+</blockquote>
+
+<p>一些消耗性能的事情,例如:<br />
+上传大文件的时候,可以用这个搞.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018 10:58 AM">2018年7月 9日 10:58</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390697">#</a>
+ | <a href="#comment-text" title="引用wZi的这条留言" onclick="return CommentQuote('comment-quote-390697','wZi');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390706" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">恩赐丶解脱丿</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390706">
+            <p>想了解实战时，可以在哪些场景中应用worker</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018  2:45 PM">2018年7月 9日 14:45</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390706">#</a>
+ | <a href="#comment-text" title="引用恩赐丶解脱丿的这条留言" onclick="return CommentQuote('comment-quote-390706','恩赐丶解脱丿');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390711" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://giscafer.com" href="http://giscafer.com" target="_blank" rel="nofollow">giscafer</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390711">
+            <p>大致就是利用线程消息来实现并行，模拟多线程。可以对比 Service Worker区别一下。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018  3:41 PM">2018年7月 9日 15:41</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390711">#</a>
+ | <a href="#comment-text" title="引用giscafer的这条留言" onclick="return CommentQuote('comment-quote-390711','giscafer');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390718" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">月</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390718">
+            <p>worker.postMessage(i * items_per_worker);<br />
+worker.postMessage((i + 1) * items_per_worker);<br />
+说好的是多线程，为什么这段代码<br />
+必定是上次执行完，切换了worker中的onmessage事件，才执行下一个。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018  5:25 PM">2018年7月 9日 17:25</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390718">#</a>
+ | <a href="#comment-text" title="引用月的这条留言" onclick="return CommentQuote('comment-quote-390718','月');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390724" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">js小白</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390724">
+            <p>javascript在奇怪的方向上越走越遠，基因決定了js最終要失敗。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  9, 2018 11:57 PM">2018年7月 9日 23:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390724">#</a>
+ | <a href="#comment-text" title="引用js小白的这条留言" onclick="return CommentQuote('comment-quote-390724','js小白');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390763" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lein</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390763">
+            <p>不仅可以优化浏览器端的体验，那些使用js开发的web app也大受其益，比如Electron应用。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 10, 2018  4:34 PM">2018年7月10日 16:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390763">#</a>
+ | <a href="#comment-text" title="引用lein的这条留言" onclick="return CommentQuote('comment-quote-390763','lein');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390829" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://hyrious.me" href="https://hyrious.me" target="_blank" rel="nofollow">hyrious</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390829">
+            <blockquote>
+<pre>引用月的发言：</pre>
+
+<p>worker.postMessage(i * items_per_worker);<br />
+worker.postMessage((i + 1) * items_per_worker);<br />
+说好的是多线程，为什么这段代码<br />
+必定是上次执行完，切换了worker中的onmessage事件，才执行下一个。</p>
+
+</blockquote>
+
+<p>同一个 worker 内是单线程。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 12, 2018  8:37 AM">2018年7月12日 08:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390829">#</a>
+ | <a href="#comment-text" title="引用hyrious的这条留言" onclick="return CommentQuote('comment-quote-390829','hyrious');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390831" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.wwmin.top" href="http://www.wwmin.top" target="_blank" rel="nofollow">wwmin</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390831">
+            <p>在 [六、实例： Worker 新建 Worker] 中的实例,三个文件都放到了一个文件夹下,worker.js 中var worker= new Worker('core.js') 为什么会报错?错误如下:Uncaught ReferenceError: Worker is not defined .难道worker中不能继续new worker ? 还是我哪里错误有误?</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 12, 2018  9:10 AM">2018年7月12日 09:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390831">#</a>
+ | <a href="#comment-text" title="引用wwmin的这条留言" onclick="return CommentQuote('comment-quote-390831','wwmin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390836" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390836">
+            <p>@wwmin：</p>
+
+<p>我疏忽了，刚刚确认 Worker 新建 Worker ，目前只有 Firefox 浏览器支持。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 12, 2018 11:28 AM">2018年7月12日 11:28</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390836">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-390836','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390854" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Dolov</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390854">
+            <blockquote>
+<pre>引用阮一峰的发言：</pre>
+
+<p>@wwmin：</p>
+
+<p>我疏忽了，刚刚确认 Worker 新建 Worker ，目前只有 Firefox 浏览器支持。</p>
+
+</blockquote>
+
+<p>17年的时候我试着用过一次，谷歌浏览器也是可以的呀</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 13, 2018  8:57 AM">2018年7月13日 08:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390854">#</a>
+ | <a href="#comment-text" title="引用Dolov的这条留言" onclick="return CommentQuote('comment-quote-390854','Dolov');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390885" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">永康</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390885">
+            <blockquote>
+<pre>引用wZi的发言：</pre>
+
+<p></p>
+
+<p>一些消耗性能的事情,例如:<br />
+上传大文件的时候,可以用这个搞.</p>
+
+</blockquote>
+
+<p>上传大文件如果用异步上传的话也没有性能问题吧？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 13, 2018  5:58 PM">2018年7月13日 17:58</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390885">#</a>
+ | <a href="#comment-text" title="引用永康的这条留言" onclick="return CommentQuote('comment-quote-390885','永康');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390912" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">章鱼来</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390912">
+            <p>阮老师，在【五、实例：Worker 线程完成轮询】代码例子里，正确的createWorker方法是：<br />
+function createWorker(f) {<br />
+  var blob = new Blob(['(' + f.toString() + ')()']);<br />
+  var url = window.URL.createObjectURL(blob);<br />
+  var worker = new Worker(url);<br />
+  return worker;<br />
+}<br />
+不然会报错的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 14, 2018 11:19 AM">2018年7月14日 11:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390912">#</a>
+ | <a href="#comment-text" title="引用章鱼来的这条留言" onclick="return CommentQuote('comment-quote-390912','章鱼来');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-390934" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-390934">
+            <p>@章鱼来：</p>
+
+<p>谢谢指出，我改过来了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 14, 2018  7:06 PM">2018年7月14日 19:06</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-390934">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-390934','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391013" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ceido</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391013">
+            <blockquote>
+<pre>引用js小白的发言：</pre>
+
+<p>javascript在奇怪的方向上越走越遠，基因決定了js最終要失敗。</p>
+
+</blockquote>
+这是6、7年就有的技术。恕我直言你的话就是一坨屎。可悲可笑。
+
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 17, 2018  9:29 AM">2018年7月17日 09:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-391013">#</a>
+ | <a href="#comment-text" title="引用ceido的这条留言" onclick="return CommentQuote('comment-quote-391013','ceido');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-391766" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">李帅武</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-391766">
+            <blockquote>
+<pre>引用月的发言：</pre>
+
+<p>worker.postMessage(i * items_per_worker);<br />
+worker.postMessage((i + 1) * items_per_worker);<br />
+说好的是多线程，为什么这段代码<br />
+必定是上次执行完，切换了worker中的onmessage事件，才执行下一个。</p>
+
+</blockquote>
+
+<p>我觉得，wenbWorker是主动往主线程传数据，而不是主线程主动去调用它，子线程达到某个要求后才会去主动和主线程通信，这就是区别吧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  3, 2018  2:30 PM">2018年8月 3日 14:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-391766">#</a>
+ | <a href="#comment-text" title="引用李帅武的这条留言" onclick="return CommentQuote('comment-quote-391766','李帅武');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-392181" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://wangfan.bj.cn" href="https://wangfan.bj.cn" target="_blank" rel="nofollow">superwf</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-392181">
+            <p>主进程和worker中的监听api风格不一致觉得好别扭，主进程用onmessage属性赋值，worker用addEventListener函数。这么设计有什么深意吗？统一多好啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2018  3:51 PM">2018年8月14日 15:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-392181">#</a>
+ | <a href="#comment-text" title="引用superwf的这条留言" onclick="return CommentQuote('comment-quote-392181','superwf');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-392473" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://github.com/xixilive" href="http://github.com/xixilive" target="_blank" rel="nofollow">Mickey</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-392473">
+            <p>老师你好，最近查阅了一下MDN文档，有些变化，准确的说这个名词应该是复数：web workers。具体有Worker(dedicate worker), Service Worker, Shared Worker等这些，在细节上还是有些差异的，比如GlobalScope，APIs方面。</p>
+
+<p>另外，在worker线程里的navigator和location分别是WorkerNavigator和WorkerLocation的实例对象，并不完全是我们所熟悉的navigator和location。</p>
+
+<p>老师若是有时间可以去重新查阅一下。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 24, 2018  9:46 AM">2018年8月24日 09:46</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-392473">#</a>
+ | <a href="#comment-text" title="引用Mickey的这条留言" onclick="return CommentQuote('comment-quote-392473','Mickey');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-392673" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">哨子</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-392673">
+            <blockquote>
+<pre>引用李帅武的发言：</pre>
+
+<p></p>
+
+<p>我觉得，wenbWorker是主动往主线程传数据，而不是主线程主动去调用它，子线程达到某个要求后才会去主动和主线程通信，这就是区别吧</p>
+
+</blockquote>
+
+<p>我觉得应该是worker线程中还是同步执行代码，当遇到postMessage()方法的时候，就应该会通知主线程。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 29, 2018  3:31 PM">2018年8月29日 15:31</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-392673">#</a>
+ | <a href="#comment-text" title="引用哨子的这条留言" onclick="return CommentQuote('comment-quote-392673','哨子');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-392794" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">小米</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-392794">
+            <p>学到很多，补充以下。</p>
+
+<p>worker对象它有以下几个全局方法:</p>
+
+<p>	最小化的navigator对象,包括onLine、appName、appVersion、userAgent和platform属性。</p>
+
+<p>	只读的location属性。</p>
+
+<p>	setTimeout()、setInterval()、clearTimeout()和clearTimeout()、clearInterval()方法。</p>
+
+<p>	XMLHttpRequest构造函数。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  4, 2018 12:07 AM">2018年9月 4日 00:07</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-392794">#</a>
+ | <a href="#comment-text" title="引用小米的这条留言" onclick="return CommentQuote('comment-quote-392794','小米');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-395482" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">iggy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-395482">
+            <blockquote>
+<pre>引用恩赐丶解脱丿的发言：</pre>
+
+<p>想了解实战时，可以在哪些场景中应用worker</p>
+
+</blockquote>
+
+<p>最有意思的用法，做网页游戏，主线程渲染，worker处理数据</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 23, 2018  2:32 PM">2018年11月23日 14:32</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-395482">#</a>
+ | <a href="#comment-text" title="引用iggy的这条留言" onclick="return CommentQuote('comment-quote-395482','iggy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-396608" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Stay</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-396608">
+            <p>在混合app中不能使用吗？我在mui框架中使用的，但是没有效果，这是为什么呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  5, 2018  5:57 PM">2018年12月 5日 17:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-396608">#</a>
+ | <a href="#comment-text" title="引用Stay的这条留言" onclick="return CommentQuote('comment-quote-396608','Stay');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-401650" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">123</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-401650">
+            <blockquote>
+<pre>引用永康的发言：</pre>
+
+<p></p>
+
+<p>上传大文件如果用异步上传的话也没有性能问题吧？</p>
+
+</blockquote>
+
+<p>异步是利用浏览器的多线程 但是分片传输的请求创建以及回调的处理还是放在js的主线程 而利用web workers从理论上来说可以瞬间并发请求 以及回调的处理也是互不干扰  个人感觉会有一些性能上的提升 但这种提升不会特别大 个人观点 没有验证</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  7, 2019 10:51 PM">2019年1月 7日 22:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-401650">#</a>
+ | <a href="#comment-text" title="引用123的这条留言" onclick="return CommentQuote('comment-quote-401650','123');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-402055" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">总想造轮子</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-402055">
+            <p>写了一段计数的程序测试js的多线程，发现子线程总是要等主线程运行完之后才会运行，这是什么原因呢？</p>
+
+<p><br />
+<br />
+<br />
+<br />
+ <br />
+  <br />
+  计数测试JS的多线程<br />
+ <br />
+ <br />
+  <br />
+  	var worker = new Worker("child.js");<br />
+  	for(let i=1;i
+		console.log("主线程计数：" + i);<br />
+	}<br />
+  <br />
+ <br />
+</p>
+
+<p><br />
+//child.js<br />
+for(let i=1;i
+	console.log("子线程计数：" + i);<br />
+}</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  9, 2019  2:09 PM">2019年1月 9日 14:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-402055">#</a>
+ | <a href="#comment-text" title="引用总想造轮子的这条留言" onclick="return CommentQuote('comment-quote-402055','总想造轮子');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-408659" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">aduo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-408659">
+            <blockquote>
+<pre>引用总想造轮子的发言：</pre>
+
+<p>写了一段计数的程序测试js的多线程，发现子线程总是要等主线程运行完之后才会运行，这是什么原因呢？</p>
+
+<p></p>
+
+<p></p>
+
+<p> </p>
+
+<p>计数测试JS的多线程<br />
+ <br />
+ </p>
+
+<p>	var worker = new Worker("child.js");<br />
+	for(let i=1;i<br />
+		console.log("主线程计数：" + i);<br />
+	}</p>
+
+<p> </p>
+
+<p></p>
+
+<p>//child.js<br />
+for(let i=1;i<br />
+	console.log("子线程计数：" + i);<br />
+}</p>
+
+</blockquote>
+
+<p>因为 web worker 是相当于后台运行，只有等主线程空闲了才会执行。web worker 设计来就是要让浏览器一直运行良好，如果不让主线程先执行，你web worker 计算量大还是会卡死浏览器。那么有没有web worker 都没有什么区别了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 25, 2019 12:27 AM">2019年2月25日 00:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-408659">#</a>
+ | <a href="#comment-text" title="引用aduo的这条留言" onclick="return CommentQuote('comment-quote-408659','aduo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-409884" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.mycms.xyz" href="http://www.mycms.xyz" target="_blank" rel="nofollow">麦草CMS</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-409884">
+            <blockquote>
+<pre>引用js小白的发言：</pre>
+
+<p>javascript在奇怪的方向上越走越遠，基因決定了js最終要失敗。</p>
+
+</blockquote>
+
+<p>大而全，不如简而精。<br />
+ES3、ES5都不错。进入ES6 JavaScript的路就有点儿偏了。后面还要高一年一个版本，es2016,es2017......一个辅助性脚本语言，应该以通俗易懂、方便实用为根本。es6的很多东西些定义的都很抽象，蹩脚。就拿模块化加载来说，我只想说真蹩脚。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 14, 2019 12:23 AM">2019年3月14日 00:23</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-409884">#</a>
+ | <a href="#comment-text" title="引用麦草CMS的这条留言" onclick="return CommentQuote('comment-quote-409884','麦草CMS');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-409986" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">SHR</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-409986">
+            <p>2.4 错误处理那部分，应该是<br />
+windows.onerror = function (event) {<br />
+  console.log([<br />
+    'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message<br />
+  ].join(''));<br />
+}<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 18, 2019  1:36 PM">2019年3月18日 13:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-409986">#</a>
+ | <a href="#comment-text" title="引用SHR的这条留言" onclick="return CommentQuote('comment-quote-409986','SHR');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-410742" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jacieron</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-410742">
+            <p>目前chrome，nodejs都已支持worker，在worker创建时，第二个参数type 可以用module，这样线程中导入脚本，可以直接使用 import 或require. 线程使用中需要注意，postmessage不能高频率调用，会导致cpu和内存剧增</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 23, 2019  9:52 AM">2019年4月23日 09:52</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-410742">#</a>
+ | <a href="#comment-text" title="引用jacieron的这条留言" onclick="return CommentQuote('comment-quote-410742','jacieron');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411042" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://yongest.github.io" href="https://yongest.github.io" target="_blank" rel="nofollow">张明一</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411042">
+            <p>new Worker()  出来的子线程要等到主线程结束才能工作，如果主线程不结束，那子线程岂不是永远都运行不了啦</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  7, 2019  4:15 PM">2019年5月 7日 16:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-411042">#</a>
+ | <a href="#comment-text" title="引用张明一的这条留言" onclick="return CommentQuote('comment-quote-411042','张明一');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411054" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://yongest.github.io" href="https://yongest.github.io" target="_blank" rel="nofollow">张明一</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411054">
+            <p>“在主线程运行的同时，Worker 线程在后台运行，两者互不干扰。”  这句话有问题，经过测试，worker 线程必须等待主线程结束才开始。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  8, 2019 10:03 AM">2019年5月 8日 10:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-411054">#</a>
+ | <a href="#comment-text" title="引用张明一的这条留言" onclick="return CommentQuote('comment-quote-411054','张明一');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-411474" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">xsp</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-411474">
+            <p>worker.onerror(function (event) {<br />
+  console.log([<br />
+    'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message<br />
+  ].join(''));<br />
+});</p>
+
+<p>参数引用错误哟，event => e</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 30, 2019  2:24 PM">2019年5月30日 14:24</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-411474">#</a>
+ | <a href="#comment-text" title="引用xsp的这条留言" onclick="return CommentQuote('comment-quote-411474','xsp');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-412381" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://xgqfrms.xyz" href="https://xgqfrms.xyz" target="_blank" rel="nofollow">xgqfrms</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-412381">
+            <p># another way for worker listen message</p>
+
+<p>```js</p>
+
+<p><br />
+// callback function<br />
+onmessage = function (e){<br />
+    console.log(`\n%c 主线程 e = `, css, e);<br />
+    // evt.data 接收数据<br />
+    let url = e.data;<br />
+    // fetch data<br />
+    const datas = [];<br />
+    // decodeURI()<br />
+    console.log(`%c 主线程 url = `, css, `"${url}"`);<br />
+    fetch(url)<br />
+    .then(res => res.json())<br />
+    .then(<br />
+        (json) => {<br />
+            // console.log(`fetched json = \n`, JSON.stringify(json, null, 4));<br />
+            let userInfos = json.user;<br />
+            console.log(`%c userInfos = `, css_fd, JSON.stringify(userInfos, null, 4));<br />
+            datas.push(userInfos);<br />
+            postMessage(userInfos);<br />
+            // 发送数据<br />
+        }<br />
+    )<br />
+    .catch(err => log(`fetch error = \n`, err));<br />
+};</p>
+
+<p>```<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2019  2:10 PM">2019年7月25日 14:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-412381">#</a>
+ | <a href="#comment-text" title="引用xgqfrms的这条留言" onclick="return CommentQuote('comment-quote-412381','xgqfrms');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-412389" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://xgqfrms.xyz" href="https://xgqfrms.xyz" target="_blank" rel="nofollow">xgqfrms</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-412389">
+            <p>准备用 web workers & indexedDB 搞一个 IM APP, 不知是否适合这种场景？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 25, 2019  6:59 PM">2019年7月25日 18:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-412389">#</a>
+ | <a href="#comment-text" title="引用xgqfrms的这条留言" onclick="return CommentQuote('comment-quote-412389','xgqfrms');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-413831" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">js小白的爸爸</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-413831">
+            <blockquote>
+<pre>引用js小白的发言：</pre>
+
+<p>javascript在奇怪的方向上越走越遠，基因決定了js最終要失敗。</p>
+
+</blockquote>
+
+<p>所以你就是个弟弟，这样的观念导致你永远是个js小白，前端菜鸟</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  5, 2019 11:52 AM">2019年10月 5日 11:52</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-413831">#</a>
+ | <a href="#comment-text" title="引用js小白的爸爸的这条留言" onclick="return CommentQuote('comment-quote-413831','js小白的爸爸');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414591" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">superlu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414591">
+            <p>阮老师，在文章开头，关于同源限制，您是这样说的：‘分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。’。<br />
+我认为这个说法不正确，应该是：‘分配给 Worker 线程运行的脚本文件，必须与页面文档同源。’。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 16, 2019 10:29 PM">2019年11月16日 22:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-414591">#</a>
+ | <a href="#comment-text" title="引用superlu的这条留言" onclick="return CommentQuote('comment-quote-414591','superlu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414725" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">yangsl</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414725">
+            <blockquote>
+<pre>引用superlu的发言：</pre>
+
+<p>阮老师，在文章开头，关于同源限制，您是这样说的：‘分配给 Worker 线程运行的脚本文件，必须与主线程的脚本文件同源。’。<br />
+我认为这个说法不正确，应该是：‘分配给 Worker 线程运行的脚本文件，必须与页面文档同源。’。</p>
+
+</blockquote>
+
+<p>对的，这里很容易误导</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 22, 2019  6:45 PM">2019年11月22日 18:45</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-414725">#</a>
+ | <a href="#comment-text" title="引用yangsl的这条留言" onclick="return CommentQuote('comment-quote-414725','yangsl');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414948" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">shadow.li</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414948">
+            <p>阮老师您好<br />
+想提几个问题<br />
+1. 就您了解，有哪些厂商有在使用web-worker么<br />
+2. 最近想通过创建定量(比如4个)的workers做为守护线程,将常用的算法和请求从主线程剥离,但是由于我不太会分析性能，想请问这种思路是否可行呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  6, 2019  9:10 PM">2019年12月 6日 21:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-414948">#</a>
+ | <a href="#comment-text" title="引用shadow.li的这条留言" onclick="return CommentQuote('comment-quote-414948','shadow.li');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-414964" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.weihexine.top" href="http://www.weihexine.top" target="_blank" rel="nofollow">loop worker</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-414964">
+            <blockquote>
+<pre>引用jacieron的发言：</pre>
+
+<p>目前chrome，nodejs都已支持worker，在worker创建时，第二个参数type 可以用module，这样线程中导入脚本，可以直接使用 import 或require. 线程使用中需要注意，postmessage不能高频率调用，会导致cpu和内存剧增</p>
+
+</blockquote>
+
+<p>你测试过吗？ <br />
+我测试过: 游戏, 我用worker循环处理数据，主线程循环渲染, 性能很好<br />
+结论：内存和cpu并不会剧增！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  7, 2019  3:02 PM">2019年12月 7日 15:02</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-414964">#</a>
+ | <a href="#comment-text" title="引用loop worker的这条留言" onclick="return CommentQuote('comment-quote-414964','loop worker');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-415865" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">webwork</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-415865">
+            <p>worker 能不能和cpu核绑定？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 15, 2020  4:18 PM">2020年1月15日 16:18</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-415865">#</a>
+ | <a href="#comment-text" title="引用webwork的这条留言" onclick="return CommentQuote('comment-quote-415865','webwork');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-417112" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://zhulu.tech" href="http://zhulu.tech" target="_blank" rel="nofollow">shinekidd</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-417112">
+            <p>2.4 错误处理</p>
+
+<p>参数是 event ，而 console.log 里面是 e.lineno e.filename e.message</p>
+
+<p>五、实例：Worker 线程完成轮询</p>
+
+<p>函数 function compare(new, old) { ... } "new" 是不能当参数的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 24, 2020  9:37 AM">2020年3月24日 09:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-417112">#</a>
+ | <a href="#comment-text" title="引用shinekidd的这条留言" onclick="return CommentQuote('comment-quote-417112','shinekidd');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-417560" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">一正</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-417560">
+            <p>为什么会报错?错误如下:Uncaught ReferenceError: Worker is not defined <br />
+原因：file:///D:/selftraining/html5/webworker/my_task.js像这样本地文件夹开头的访问是不行的。<br />
+要放在服务器运行才行。<br />
+解决方法：<br />
+用阮老师的代码，或者拷贝这个项目：https://github.com/mdn/simple-web-worker<br />
+用http-server开启本地服务 npm install http-server -g<br />
+然后在浏览器访问就行了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  7, 2020  3:16 PM">2020年4月 7日 15:16</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-417560">#</a>
+ | <a href="#comment-text" title="引用一正的这条留言" onclick="return CommentQuote('comment-quote-417560','一正');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-418029" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.ktln.xyz" href="http://www.ktln.xyz" target="_blank" rel="nofollow">王鑫</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-418029">
+            <p>Worker 线程完成轮询，fetch 请求跨域怎么处理，用 http-proxy，会报错 Failed to execute 'fetch' on 'WorkerGlobalScope': Failed to parse URL from，直接写全连接会报跨域问题</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 27, 2020 10:34 AM">2020年4月27日 10:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-418029">#</a>
+ | <a href="#comment-text" title="引用王鑫的这条留言" onclick="return CommentQuote('comment-quote-418029','王鑫');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-418373" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">朱捷</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-418373">
+            <blockquote>
+<pre>引用永康的发言：</pre>
+
+<p></p>
+
+<p>上传大文件如果用异步上传的话也没有性能问题吧？</p>
+
+</blockquote>
+
+<p>复杂的计算，有些计算可能需要几秒钟才能算出结果的。<br />
+还有介绍轮询，轮询是一个持续消耗的过程，如果页面主线程本来就复杂，这时候就能提升体验了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 18, 2020 11:04 AM">2020年5月18日 11:04</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-418373">#</a>
+ | <a href="#comment-text" title="引用朱捷的这条留言" onclick="return CommentQuote('comment-quote-418373','朱捷');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-419659" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://github.com/18801268763" href="https://github.com/18801268763" target="_blank" rel="nofollow">oliver lou</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-419659">
+            <blockquote>
+<pre>引用SHR的发言：</pre>
+
+<p>2.4 错误处理那部分，应该是<br />
+windows.onerror = function (event) {<br />
+console.log([<br />
+'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message<br />
+].join(''));<br />
+}<br />
+</p></blockquote>
+
+<p><strong>我当时看时候就觉得奇怪，为什么onerror是一个函数，今天测试，发现是阮老师写错了，onerror是用句柄的方式写的</strong><br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 24, 2020 10:20 AM">2020年6月24日 10:20</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-419659">#</a>
+ | <a href="#comment-text" title="引用oliver lou的这条留言" onclick="return CommentQuote('comment-quote-419659','oliver lou');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-420753" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">戈丶</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-420753">
+            <p>这个东西说实话，很牛逼，但是用处不是很广，而且编写麻烦，所以我已经把Worker深度封装成js的Thread的类型了，实例化Thread对象调用起来非常方便，以备不时之需！<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 30, 2020  5:09 PM">2020年7月30日 17:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-420753">#</a>
+ | <a href="#comment-text" title="引用戈丶的这条留言" onclick="return CommentQuote('comment-quote-420753','戈丶');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-421369" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">diss</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-421369">
+            <blockquote>
+<pre>引用js小白的发言：</pre>
+
+<p>javascript在奇怪的方向上越走越遠，基因決定了js最終要失敗。</p>
+
+</blockquote>
+
+<p>不然你说你是小白呢，这是早年Chromium 推的，只不过和HTML5 一起标准化了，跟JavaScript有什么关系？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 14, 2020  9:26 AM">2020年8月14日 09:26</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-421369">#</a>
+ | <a href="#comment-text" title="引用diss的这条留言" onclick="return CommentQuote('comment-quote-421369','diss');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-423017" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">前端菜鸡</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-423017">
+            <p>阮老师你真的太菜了，文章不少地方都写错了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  5, 2020  2:29 PM">2020年10月 5日 14:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2018/07/web-worker.html#comment-423017">#</a>
+ | <a href="#comment-text" title="引用前端菜鸡的这条留言" onclick="return CommentQuote('comment-quote-423017','前端菜鸡');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="http://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1999" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="http://www.ruanyifeng.com/blog/js/prism.js"></script>
+        <script type="text/javascript" src="/blog/checker.js"></script> 
+            <div id="footer">
+<div id="footer-inner">
+  <div id="footer-content">
+
+      
+<!--
+      <section> 
+     </section>
+  <p><a title="Instagram" target="_blank" href="http://instagram.com/ruanyf">Instagram</a></p>
+       <p><a title="订阅" href="https://app.feedblitz.com/f/f.fbz?Sub=348868" target="_blank">邮件订阅</a></p>
+  
+       <h2>Feed</h2>
+       <p><a title="FeedBurner" href="http://feeds.feedburner.com/ruanyifeng" target="_blank">FeedBurner</a></p>
+       <p><a title="atom.xml" href="http://www.ruanyifeng.com/blog/atom.xml" target="_blank">atom.xml</a></p>
+     
+      <p>支付宝：<a title="支付宝" href="alipays://platformapi/startapp?appId=20000067&url=http%3A%2F%2Fwww.ruanyifeng.com%2Fblog" target="_blank">yifeng.ruan@gmail.com</a></p>
+-->
+
+     <section>
+<!--
+       <h2>授权方式</h2>
+       <p><a title="许可证" href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank">自由转载-非商用-非衍生-保持署名</a></p>
+       <h2>微信公号</h2>
+       <h2>社交帐号</h2>
+       <h2>联系方式</h2>
+     -->
+       <p><img src="https://www.wangbase.com/blogimg/asset/202001/bg2020013101.jpg" alt="微信扫描"></p>
+       <p>
+         <a title="微博" href="http://weibo.com/ruanyf" target="_blank">Weibo</a> | 
+         <a title="Twitter" target="_blank" href="https://twitter.com/ruanyf">Twitter</a> |
+         <a title="GitHub" target="_blank" href="https://github.com/ruanyf">GitHub</a>
+       </p>
+     
+     <p>Email: <a title="电子邮件" href="mailto:yifeng.ruan@gmail.com" target="_blank">yifeng.ruan@gmail.com</a></p>
+     </section>
+  
+  
+
+
+  </div>
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript" src="/blog/stats.js"></script>
+<script>
+var supportImg = document.querySelector('#support-img');
+
+if (supportImg && _hmt) {
+  _hmt.push(['_trackEvent', 'banner', 'load']);
+  supportImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'banner', 'click']);
+  }, false);
+}
+
+var homepageImg = document.querySelector('#homepage_sponsor');
+if (homepageImg && _hmt) {
+  _hmt.push(['_trackEvent', 'homepage-banner', 'load']);
+  homepageImg.addEventListener('click', function () {
+    _hmt.push(['_trackEvent', 'homepage-banner', 'click']);
+  }, false);
+}
+</script>
+
+
+<div id="share_button_proto" style="display:none;">
+<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>
+
+
+
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=15e016b4-0028-44f1-a40d-a3c9d9c13c28&style=10&bgcolor=#fff&bp=weixin,qqim,qzone,qqmb,sinaminiblog,fanfou,xueqiu,douban,facebook,twitter,gplus,instapaper&ssc=false"></script>
+<script type="text/javascript" charset="utf-8">
+bShare.addEntry({
+    title: document.getElementById("page-title").innerHTML,
+url:window.location.href
+});
+</script>
+</div>
+
+<script>
+document.getElementById("share_button").innerHTML=document.getElementById("share_button_proto").innerHTML;
+</script>
+
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>
