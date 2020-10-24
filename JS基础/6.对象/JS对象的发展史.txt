@@ -1,0 +1,76 @@
+首先我们知道创建对象的三种模式：工厂模式、构造函数模式、原型模式；（它们是递进关系的）
+
+1.  工厂模式
+	这种模式解决了创建多个相似对象的问题，但是这种模式却无法识别创建出来的对象是属于那种类型的，都属于Object ?
+	function createPerson(name, obj, job) {
+                var o = new Object();
+                o.name = name;
+                o.obj = obj;
+                o.job = job;
+                o.sayName = function() {
+                    alert(this.name);
+                };
+                return o;
+            }
+            var person1 = createPerson('mary', 20, "software Engineer")
+			
+2. 构造函数模式
+	解决了工厂模式的问题，构造函数中可以将实例标识为一种特定的类型
+	alert( person1  instanceof Person); // true  
+	在构造函数中定义一个方法，该方法是大家公用的应避免重复创建浪费空间，解决方法是
+	将该方法放到全局那么每个子例都能调用到，但这样就没有任何封装可言了
+	
+	function Person(name, obj, job) {
+					this.name = name;
+					this.age = age;
+					this.job = job;
+					this.sayName = function() {
+						alert(this.name);
+					}
+				};
+	var person1 = new Person("mary", 20, "Software Engineer");
+				
+3. 原型模式
+	因为之前用构造函数来创建的话，每一个实例都要创建一块和构造函数相同大小的空间来
+	存储构造函数的原有属性和方法，这样会导致空间资源紧张，
+	而原型模式的先进在于，我们用一个指针 prototype 来指向一个原型对象的属性和方法即可，
+	需要用的时候我们再根据这些指针指向的地址使用这些方法即可，而我们的new 构造函数仅仅
+	只是个空对象（为了标明我们是属于哪种类型），提高了我们的工作性能；
+	
+	 function Person() { }
+            Person.prototype.name = "Mary";
+            Person.prototype.age = 29;
+            Person.prototype.job = "Software Engineer"
+            Person.prototype.sayName = function() {
+                alert(this.name);
+            };
+            var person1 = new Person();
+            
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+				
+				
+			
+			
+			
+			
+			
+			
+			
