@@ -1,0 +1,8 @@
+冒泡事件很多，个人觉得记住常见的不支持冒泡事件就可以了
+有：①focus
+       ②blur
+       ③mouseenter
+       ④mouseleave
+       ⑤load
+       ⑥unload
+       ⑦resize

@@ -1,0 +1,6 @@
+[非构造函数的继承]https://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance_continued.html
+[js深拷贝与浅拷贝方法]https://segmentfault.com/a/1190000016440069
+
+[看懂这篇文章就可以了] https://juejin.im/post/6844903647856295949
+
+

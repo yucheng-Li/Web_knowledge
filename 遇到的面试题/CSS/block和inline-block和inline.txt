@@ -1,0 +1,11 @@
+1. inline ： 使用此属性后，元素会被显示为内联元素，元素则不会换行  
+inline是行内元素，同行可以显示，像span、font、em、b这些默认都是行内元素，不会换行，无法设置宽度、高度、margin、border
+
+2. block ： 使用此属性后，元素会被现实为块级元素，元素会进行换行。  
+block，块元素，div、p、ul、li等这些默认都是块元素，会换行，除非设置float  
+
+3. inline-block ： 是使元素以块级元素的形式呈现在行内。意思就是说，让这个元素显示在同一行不换行，但是又可以控制高度和宽度，这相当于内敛元素的增强。(IE6不支持)  
+inline-block，可以同行显示的block，想input、img这些默认就是inline-block，出了可以同行显示，其他基本block一样
+
+行内元素不可以设置宽高，但是可以设置   左右padding、左右margin
+inline元素只能嵌套inline元素

@@ -1,0 +1,68 @@
+http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+1. 为什么需要Flex布局？
+		因为传统布局的解决方案是基于盒模型的，依赖 display	属性 + position 属性 + float 属性。
+	它对于那些特殊的布局非常不方便，比如垂直居中就不容易实现。
+	而 W3C提出的- Flex布局解决方案就能简便、完整、响应式地实现各种页面布局，目前已经得到了所有浏览器的支持
+		它是W3C提出的一种页面布局方案，目的是让页面布局更加高效，它可以轻易地实现容器中的项对齐和有效地管理
+	项与项之间的空间，即使它们的大小是未知或是动态的；
+		Flex布局其背后主要的思想是，让容器有能力改变它其中项的宽高来更好的适配容器的空间（其中主要是为了适配
+	不同显示尺寸大小的设备），Flex容器能很好的在富裕的空间延展它其中的项，也能在有限的空间中收紧它的项以防
+	止项的溢出；
+		最重要的是相较于常规的布局方式来说 flexbox 它的布局方向是可以改变的（块级元素是垂直方向的，内联元素是水平方向的），
+	虽在常规布局在网页页面布局上效果不错，但是由于缺乏灵活性在对一些更大更复杂的应用上并不友好，特别是涉及到
+	方向改变、调整大小、拉伸、收缩等操作；
+	注意：Flexbox布局最适合应用程序的组件和小规模布局，而网格布局则适合较大规模的布局。
+
+2. 基本概念
+	flexbox 中有一些设置针对容器（constainer）的, 而有一些设置是针对针对其内部的项来设置的
+	
+3. 属性用法
+（1）定义在容器上的属性
+		display： 定义一个弹性盒子
+				.container {
+					display: flex; /* or inline-flex */
+				}
+		flex-direction：定义主轴的方向
+				.container {
+					flex-direction: row | row-reverse | column | column-reverse; // 正常为顺序，reverse 为逆序
+				}
+		flex-wrap：换行
+				.container {
+					flex-wrap: nowrap | wrap | wrap-reverse; //
+				}
+		flex-flow：主轴方向加是否换行
+				.container {
+					flex-flow: column wrap;
+				}
+		justify-content：两端对齐
+				.container {
+					justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly | start | end | left | right ... + safe | unsafe;
+				}
+		align-items：垂直方向布局
+				.container {
+					align-items: stretch | flex-start | flex-end | center | baseline | first baseline | last baseline | start | end | self-start | self-end + ... safe | unsafe;
+				}
+		align-content：垂直方向内容布局			
+				.container {
+					align-content: flex-start | flex-end | center | space-between | space-around | space-evenly | stretch | start | end | baseline | first baseline | last baseline + ... safe | unsafe;
+				}	
+				
+（2）定义在子项中的属性
+		order：设定子项中的排列顺序（优先级权重）；
+		flex-grow：设置同行元素中每一项的比重；适合用来设置三栏布局
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

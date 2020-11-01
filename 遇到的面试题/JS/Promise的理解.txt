@@ -1,0 +1,25 @@
+1. 	Promise是异步编程的一种解决方案；
+	因此我们在了解Promise前我们需要了解异步编程的重点：回调函数
+	回调函数：当我们执行某种无法立即返回结果的任务时，回调函数就能异步地帮我们把结果返回或者说当我们异步返回成功后
+					要紧接着执行的下一步指令
+
+2.	而Promise 则是以链式调用的方法来解决多重回调函数的面临的回调地狱问题
+	new出来的Promise 用一个回调函数作为参数内含两个变量，一个代表成功回调，一个代表失败回调, 一旦成功执行了
+	成功的回调，就不会执行失败的了，这里也就对应上了所谓的从pending状态变到resolved 或着从pending状态变到了rejected
+		let promise = new Promise((resolve, reject)=>{
+			resolve("通过了")
+			reject("拒绝了");
+		});
+		promise.then((data)=>{
+			console.log('success' + data);
+		}, (error)=>{
+			console.log("Error code: " + error)
+		});
+	
+3. then 方法的规则
+	
+
+
+
+
+

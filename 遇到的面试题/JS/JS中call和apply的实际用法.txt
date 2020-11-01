@@ -1,0 +1,27 @@
+1. 改变函数中this的指向  2. 扩充函数赖以运行的作用域
+call 和 apply 的用途：
+	两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内this对象的值；
+	举个例子：在严格模式下，未指定环境对象而调用函数，，则this值不会转型为window。除非确切把函数添加到某个对象
+	或者调用apply( ) 或 call( ) ,否者this值将是undefined
+
+call 和 apply 什么情况用哪个？
+	call( ) 和 apply( )  的方法作用相同，它们的区别仅在于接收参数的方式不同，对于call( ) 方法而言，第一个参数是this值没有
+	变化，变化的是其余参数都直接传递给函数。换句话来说是在使用call( ) 方法时，传递给函数的参数必须逐个列举出来；
+	因此 选call( ) 还是 apply( ) 就取决于你采用哪种函数传递参数更方便；
+
+call 和 apply 真正强大的地方在于能够扩充函数赖以运行的作用域
+	eg:     	window.color = "red";
+				var o = { color:"blue"};
+				function sayColor() {
+				  alert(this.color);
+				}
+				sayColor();  //red
+
+				sayColor.call(this); //red
+				sayColor.call(window); //red
+				sayColor.call(o); //blue     
+	直接将函数内部的this 指向call 中的第一个对象参数，改变了this的指向
+	
+	同样ES5中添加了一个新的方法 bind( ) 作用和call 类似，这个方法会创建一个函数的实例，其this 值会绑定到传给bind( ) 函数的值
+
+	

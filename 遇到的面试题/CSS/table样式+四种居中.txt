@@ -1,0 +1,29 @@
+parent {
+display: table;
+}
+child {
+display: table-cell;
+vertical-align: middle;
+}
+parent {
+display: flex;
+align-items: center;
+}
+parent {
+position: relative;
+}
+child {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+}
+parent:after {
+content: '';
+height: 100%;
+vertical-align: middle;
+width: 0;
+}
+child {
+display: inline-block;
+vertical-align: middle;
+}

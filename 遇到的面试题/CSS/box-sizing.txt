@@ -1,0 +1,9 @@
+1. 为什么什么需要box-sizing ?
+	因为在CSS盒模型里面，对元素设置width、height 只会映射到盒子的内容区，而盒子的总宽度高度则是
+由元素的 width + border + padding , 因此我们在做页面布局的时候要时刻考虑到元素的border 和 padding
+
+2. 介绍box-sizing 
+	因为CSS盒子模型存在的这样的问题，box-sizing 提出了自己的解决方法，box-sizing给用户两个属性选择；
+一个是content-box 它是默认值也就是CSS的标准盒子，第二个是border-box , 你想要设置的边框和内边距的
+值是包含在width内的，这样我们就比较容易得到盒子的绝对宽高，盒子中的内容的宽高则是根据根据给定的
+盒子宽高减去border 和 padding 得到；

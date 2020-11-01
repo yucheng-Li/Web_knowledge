@@ -1,0 +1,17 @@
+这个要查证总结一下
+
+
+
+
+1.div:first-child
+要满足的条件，首先必须得是div元素，还得是第一个子元素，如果不满足 就不会被选中
+
+2.div:first-of-type
+要满足的条件，首先必须得是div元素，还得是第一个出现的div元素，如果不满足 就不会被选中
+
+3.nth-child
+a:nth-child(5)： 必须是a元素 必须是第五个子元素
+存在 nth-child(0) ?
+
+4.nth-of-type：
+a:nth-of-type:选中所有a元素中的第n个a元素

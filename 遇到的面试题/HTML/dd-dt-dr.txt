@@ -1,0 +1,13 @@
+http://know.webhek.com/html5/html-dl-dt-dd.html
+
+dl、dt、dd
+dl（definition list）：定义列表
+dt：（title）：定义标题
+dd:（data）：定义文本项
+
+那么 dl 和 table 它们的区别是什么呢？
+dl 它们更像可定制行标题段落， table 更像是一个表格，行列标志很清晰
+td 的 colspan属性代表所占列数， rowspan 属性代表所占行数
+
+dl 必须存在， dt、dd 可有可无，但如果dt、dd 存在的时候dt、dd必须位于同一级不存在包含关系
+
