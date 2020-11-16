@@ -1,0 +1,18 @@
+三者不可见的区别：
+	display：none //元素直接消失包括所占据的空间
+	visibility：hidden // 元素消失但是空间依然存在，只是用来表示元素是否可见
+	opacity：0 // 用来设置元素的透明度，透明度为0的时候元素不可见但所占据的空间依然存在
+	
+对比分析：
+	1. 对子元素的影响
+		display：none 和 opacity：0 子元素怎么都会受到影响，而visibility对子元素设置成 visibility: visible 子元素可以不受父元素的不可见影响
+	2. 自身绑定的事件是否能继续触发
+		使用 visibility 和 display 属性，自身的事件不会触发，而使用 opacity 属性，自身绑定的事件还是会触发的。
+	3. 是否影响其他元素触发事件
+		覆盖其它元素上方时，visibility 和 display 属性是不会影响其他元素触发事件的，而 opacity 属性 如果遮挡住其他元素，其他的元素就不会触发事件了。
+	4. 是否产生回流（reflow）?
+		dispaly 属性会产生回流，而 opacity 和 visibility 属性不会产生回流。
+	5. 是否产生重绘（repaint）?
+		opacity 属性不一定会产生重绘，而 dispaly 和 visibility 属性会产生重绘。
+	6. 是否支持transition?
+		dispaly 属性不支持，而 opacity 和 visibility 属性支持。

@@ -1,0 +1,18 @@
+【JavaScript专题之跟着underscore学防抖 】https://github.com/mqyqingfeng/Blog/issues/22
+
+为什么防抖？
+同一个事件短时间内多次频繁的触发会导致性能问题
+
+如何避免？
+那就是要用防抖技术了；
+防抖技术的原理：你尽管触发事件，但是我一定在事件触发 n 秒后才执行，如果你在一个事件触发的 n 秒内又触发了这个事件，
+那我就以新的事件的时间为准，n 秒后才执行，总之，就是要等你触发完事件 n 秒内不再触发事件，我才执行，真是任性呐!
+
+第一版：
+	function debounce(func, wait) {
+				var timeout;
+				return function () {
+					clearTimeout(timeout) // n秒内再次被触发我就重新计算事件，如果一直被不间断地触发就一直在计算无法执行
+					timeout = setTimeout(func, wait);
+				}
+			}

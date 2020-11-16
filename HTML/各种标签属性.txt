@@ -6,7 +6,7 @@
 	_framename：在指定的框架或浮动框架内打开链接
 	
 常用的
-	块状元素：<div><p><h1><ol><ul><li><dl><table><address><blockquote><form>
+	块状元素：<div><p><h1><ol><ul><li><dl><table><address><blockquote><form><tr><td><th>
 	内联元素：<a><span><br><i><em><strong><label><q><var><cite><code>
 	内联块状元素：<img><input>
 	

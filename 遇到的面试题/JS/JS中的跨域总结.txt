@@ -5,3 +5,13 @@ javascript中实现跨域的方式总结：
 	第四种方式：window.postMessage；window.postMessages是html5中实现跨域访问的一种新方式，可以使用它来向其它的window对象发送消息，无论这个window对象是属于同源或不同源。
 	第五种方式：CORS；CORS背后的基本思想，就是使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是应该失败。
 	第六种方式：Web Sockets；web sockets原理：在JS创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议。
+	
+	
+	CORS跨域的拓展：
+		XMLHttpRequest有同源限制（必须要相同的协议、域、端口才能访问）。
+CORS在http中新增了一个Origin头部解决实现跨域资源共享，浏览器在发送请求时会发送这个头部，包含请求页面的源信息，
+服务器根据Origin头部决定是否响应。如果没有Origin头部或者信息不匹配就驳回请求；如果请求可接受服务器就会在相应的
+头部中设置Access-Control-Allow-Orgin头部中发回相同的源信息或者“*”表示可以被任意外域访问。
+对于那些对服务器可能造成副作用的请求方法（非简单请求），还要发送预检请求告知服务器请求使用的方法和自定义的头部，
+服务器会在Access-Control-Allow-Headers 和Access-Control-Allow-Methods头部中返回允许请求的方法和允许的头部。
+此外，还可以要求携带身份认证（cookies、http认证相关数据）
