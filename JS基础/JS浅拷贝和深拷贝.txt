@@ -19,40 +19,12 @@ arr[0]="fisrt"
 console.log(arr); // ["fisrt", "test", 3, "4"]
 console.log(arr2); // ["fisrt", "test", 3, "4"]
 
-二、深拷贝、浅拷贝的方法
 
-拷贝对象是数组：
-	（1）for循环
-			let arr1 = [ ];
-			for(var i  = 0 ; i  < arr.length; i++) {
-				arr1.push( arr[ i ])
-			}
-	（2）slice方法
-		let arr1 = arr.slice( 0 ); // 利用会返回一个新的数组的特性
-	（3）concat
-		// 利用会返回一个新的数组的特性
-		
- 如果深拷贝的对象是对象
-     （1）for in 循环
-    let cobj = {};
-    for(key in obj) {
-      cobj[key] = obj[key];
-    }
-    return cobj;
-     （2）利用 JSON.parse(JSON.stringify())
-    var cobj = JSON.parse(JSON.stringify(obj))
+深拷贝
 
-    （3）利用es6扩展运算符
-    let {...cobj} = {obj}
-		
-		
+数组：slice() \ concat() \ ES6扩展运算符 [...arr1] = [arr]
 
-
-
-
-
-
-
+对象：创建一个新的空对象利用for in 迭代旧的 \ JSON.parse(JSON.stringty())
 
 
 

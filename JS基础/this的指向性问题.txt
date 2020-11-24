@@ -1,0 +1,33 @@
+http://www.ruanyifeng.com/blog/2018/06/javascript-this.html
+
+函数保存在一个独立的地址空间里；
+
+var obj = { foo: function () {} };
+对象里的函数的存储方式是将函数的地址赋给变量foo,;
+
+var f = function () {
+  console.log(this.x);
+}
+
+var x = 1;
+var obj = {
+  f: f,
+  x: 2,
+};
+
+// 单独执行
+f() // 1
+
+// obj 环境执行
+obj.f() // 2
+
+像这样函数可以在不同的运行环境中执行，那么此时就需要有一种机制来获取函数体当前运行在什么环境下，
+所以this就出现了，它的设计目的就是在函数体内部指代当前的运行环境；
+
+而apply、call则是改变执行环境的存在
+
+简单总结一下就是 谁调用this就指向谁，全局调用指向Gobel( window ) ，new 出来是谁就指向谁 
+
+
+
+

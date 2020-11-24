@@ -1,0 +1,14 @@
+https://www.cnblogs.com/suihang/p/10606693.html
+
+JS中的装箱：把基本数据类型转换成引用类型值 （联想为什么字符串为什么能调用数组的方法）
+		  拆箱：把引用类型值转换成基本类型值
+	
+装箱：	
+		var s1  = new String("some text");
+		var s2 = s1.substring(2);
+		s1 = null;
+		
+拆箱：它是通过引用类型的valueOf()或者toString()方法来实现的
+		  
+
+		  

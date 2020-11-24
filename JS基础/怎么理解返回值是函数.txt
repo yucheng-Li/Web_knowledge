@@ -1,0 +1,30 @@
+在高阶函数中常常会看到return回一个匿名函数，究竟是为什么这样做呢？
+
+//就以这个防抖来说吧
+	var throttle = function ( fn, interval ) { 
+		var __self = fn, // 保存需要被延迟执行的函数引用
+		timer, // 定时器
+		firstTime = true; // 是否是第一次调用
+		return function () { 
+			var args = arguments, 
+			__me = this; 
+			if ( firstTime ) { // 如果是第一次调用，不需延迟执行
+				__self.apply(__me, args); 
+				return firstTime = false; 
+			} 
+			if ( timer ) { // 如果定时器还在，说明前一次延迟执行还没有完成
+				return false; 
+			}     
+			timer = setTimeout(function () { // 延迟一段时间执行
+				clearTimeout(timer); 
+				timer = null; 
+				__self.apply(__me, args); 
+			}, interval || 500 ); 
+		}; 
+	}; 
+	window.onresize = throttle(function(){ 
+		console.log( 1 ); 
+}, 500 ); 
+
+这样做是一种很直接的闭包，在return前把定义了一些变量，很明显就是想通过闭包的延长生命周期的作用来保存这些变量（同时这些变量不能被外部访问到），
+而且我们是需要频繁地调用防抖函数的，下一个函数的输出是需要上一个函数来参考的，因此记录状态的变量不能被销毁，据此我们还分出了静态区和动态区

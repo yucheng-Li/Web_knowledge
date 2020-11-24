@@ -1,0 +1,6 @@
+https://www.cnblogs.com/echolun/p/11962610.html
+显式绑定 > 隐式绑定 > 默认绑定
+
+new绑定 > 隐式绑定 > 默认绑定
+
+其实不然，new绑定 和 bind的显式绑定是不会同时存在的

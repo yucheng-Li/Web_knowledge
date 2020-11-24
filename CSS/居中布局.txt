@@ -1,0 +1,67 @@
+【（史上最全）div居中的几种方法】https://juejin.im/post/6844903821529841671#heading-6
+
+→ 注意：像text-align这样的属性是应用在内联元素中的，对块级元素无效
+
+盒子居中布局：
+
+	1. 子元素已知宽度
+		（1）用Flex布局
+				display: flex;                     
+				justify-content: center;            
+				align-items: center;
+		（2）用position布局
+				父元素设置为：position: relative;
+				子元素设置为：position: absolute; top:	50%;left：50%；
+				 用margin然后减去元素自身宽度的一半距离就可以实现
+		（3）用margin：auto布局
+				父元素设置为：position: relative;
+			    子元素设置为：position: absolute; top:	0;	left：0； bottom: 0; right: 0;
+		        然后子元素的 margin设为auto
+		（4）用table-cell布局
+				父元素：display：table
+				子元素：
+					display: table-cell;            
+					vertical-align: middle; 
+					text-align: center; // 因为table-cell会改变元素的属性变成内联元素了因此可以用内联元素的文字居中
+		
+	2. 子元素宽度未知
+		（1）用 position 和 transform 
+				position: absolute;            
+				top: 50%;            
+				left: 50%;            
+				transform: translate(-50%, -50%);   // 减去自身的宽度的 50%
+				
+内联元素（文字，图片）水平居中
+	
+	/***
+		行元素： text-align ：center；
+		块元素 ：margin ：0 auto；
+		
+		text-align : center 	 给元素的父级加，可以使文本或者行级元素(例如：图片)水平居中	
+		line-height : 			值为元素的高度，可以使元素的文本内容垂直居中
+		margin: 0 auto 		使用条件：父级元素宽度可有可无，子级元素必须是块元素，而且要有宽度（否则继承父级）
+	***/
+	1. 使（文字、图片）水平垂直居中
+		display: table-cell;            
+        text-align: center;/*使元素水平居中 */            
+        vertical-align: middle;/*使元素垂直居中 */      
+	
+	2. 三栏布局
+		父元素 display：table
+		两端子元素 display：table-cell; width：20%
+		中间子元素 设个高度即可
+
+		
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+

@@ -1,0 +1,5 @@
+【float与absolute脱离文档流的区别】https://segmentfault.com/a/1190000007357865
+
+float：使用float脱离文档流时，其他盒子会无视这个元素，但其他盒子内的文本依然会为这个元素让出位置，环绕在周围。
+
+absolute：使用absolute position脱离文档流的元素，其他盒子与其他盒子内的文本都会无视它。

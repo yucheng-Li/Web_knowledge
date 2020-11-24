@@ -1,0 +1,16 @@
+https://blog.csdn.net/Roriring/article/details/88426987?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param
+【cookie/session记住登录状态机制原理】https://blog.csdn.net/qq_35491812/article/details/90749928
+
+1. sessionStorage的使用场景
+	敏感账号的一次性登陆，sessionId不想保存在cookie,就保存在sessionStorage里
+	
+	
+1. cookie：在网站中，http请求是无状态的，也就是说，即使第一次和服务器连接后并且登录成功后，
+第二次请求服务器依然不能知道当前请求是哪个用户。cookie的出现就是为了解决这个问题：当浏览器访问网站后，
+这些网站将一组数据存放在客户端，当该用户发送第二次请求的时候，就会自动的把上次请求存储的cookie数据自动携带给服务器，
+服务器通过浏览器携带的数据就能识别当前用户。
+
+2. session：Session是存放在服务器端的类似于HashTable结构（每一种Web开发技术的实现可能不一样，下文直接称之为HashTable）
+来存放用户 数据，当浏览器第一次发送请求时，服务器自动生成了一个HashTable和一个Session ID用来唯一标识这个HashTable，
+并将其通过响应发送到浏览器。当浏览器第二次发送请求，会将前一次服务器响应中的Session ID放在请求中一并发送到服务器上，
+服务器从请求中提取出Session ID，并和保存的所有Session ID进行对比，找到这个用户对应的HashTable。

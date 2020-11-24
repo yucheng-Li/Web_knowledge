@@ -1,0 +1,15 @@
+【探究: 为什么CSS要在head标签中引入】https://zhuanlan.zhihu.com/p/268726432
+
+这个文章就很厉害了，我们直接从浏览器的渲染流程来看这个问题
+经过我的测试发现：
+	link链接的CSS 
+	1. 放在head里面和放在body外面都会阻塞HTML的渲染，也就是要等到link的CSS内容加载完才一起生成render tree
+	2. link放在body里面会先渲染生成render tree 等接收完link css的内容后再重新加上 style tree 生成render tree
+	
+而且还发现在HTML中间嵌入加载文件（script或link）会阻塞HTML的解析但是却不会阻塞HTML的渲染，因为
+现代浏览器为了更好的用户体验,渲染引擎将尝试尽快在屏幕上显示的内容。
+它不会等到所有HTML解析之前开始构建和布局渲染树。部分的内容将被解析并显示。
+也就是说浏览器能够渲染不完整的dom树和cssom，尽快的减少白屏的时间。
+
+此外我们尽量把link CSS的内容放在head里面来阻塞HTML的渲染，这样做即使会增加用户白屏等待的时间
+但是减少了CLS（页面布局偏移值）,减少了回流的过程，毕竟回流的代价是很大的损耗性能

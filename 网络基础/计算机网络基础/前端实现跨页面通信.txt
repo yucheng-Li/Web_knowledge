@@ -1,0 +1,31 @@
+https://segmentfault.com/a/1190000018731597
+一、同源页面间的跨页面通信
+	1. BroadCast Channel
+		https://github.com/alienzhou/blog/issues/26 （介绍BroadCast Channel的使用）（但兼容性不好）
+	
+	2. Service Worker
+		https://github.com/alienzhou/blog/issues/4
+		
+	3. LocalStorage
+		1.给每个页面增加一个监听事件
+		  并对要监听的元素进行判断是否发生改变
+		  window.addEventListener('storage', function (e) {
+            if (e.key === 'setText') {
+            const data = JSON.parse(e.newValue);
+            const text = '[receive] ' + data.msg 
+            console.log('[Storage I] receive message:', text);
+            }
+        });     
+        function emitEvent() {
+            localStorage.setItem('setText', JSON.stringify({
+                from: 'aaa',
+            msg: 'ok',
+            st: 'sss'
+        }))
+        }
+		
+		
+		广播模式：Broadcast Channe / Service Worker / LocalStorage + StorageEvent
+		共享存储模式：Shared Worker / IndexedDB / cookie
+		口口相传模式：window.open + window.opener
+		基于服务端：Websocket / Comet / SSE 等

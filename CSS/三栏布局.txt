@@ -1,0 +1,15 @@
+【详解 CSS 七种三栏布局技巧】https://zhuanlan.zhihu.com/p/25070186
+
+1. 流体布局
+	左、右 ： float: left;	float: right;
+	中间自适应：margin-left: 120px;	margin-right: 220px;
+	★但要注意的是，中间内容部分的标签是写在左右浮动的后面的，至于为什么思考一下
+		<div class="left"></div>
+        <div class="right"></div>
+        <div class="main"></div>
+		
+2. 利用BFC
+	根据BFC 第一条的处理，overflow：hidden; 用overflow：hidden; 来替换上面流体的的margin
+	
+3.  双飞翼布局
+		//https://www.jianshu.com/p/549aaa5fabaa 对margin 负值的影响搞清楚先

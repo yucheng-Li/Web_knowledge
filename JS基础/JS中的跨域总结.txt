@@ -1,0 +1,21 @@
+javascript中实现跨域的方式总结：
+	第一种方式：jsonp请求；jsonp的原理是利用<script>标签的跨域特性，可以不受限制地从其他域中加载资源，类似的标签还有<img>.
+	第二种方式：document.domain；这种方式用在主域名相同子域名不同(例如:en.dataplugs.com 是 dataplugs.com 的子域名)的跨域访问中 //可以返回当前文档的服务器域
+				前提条件：这两个域名必须属于同一个基础域名!而且所用的协议，端口都要一致，否则无法利用document.domain进行跨域.
+	
+	第三种方式：window.name；window的name属性有个特征：在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，
+				每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。
+	第四种方式：window.postMessage；window.postMessages是html5中实现跨域访问的一种新方式，可以使用它来向其它的window对象发送消息，
+				无论这个window对象是属于同源或不同源。
+	第五种方式：CORS；CORS背后的基本思想，就是使用自定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功还是应该失败。
+	第六种方式：Web Sockets；web sockets原理：在JS创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议。
+	
+	
+	CORS跨域的拓展：
+		XMLHttpRequest有同源限制（必须要相同的协议、域、端口才能访问）。
+	CORS在http中新增了一个Origin头部解决实现跨域资源共享，浏览器在发送请求时会发送这个头部，包含请求页面的源信息，
+	服务器根据Origin头部决定是否响应。如果没有Origin头部或者信息不匹配就驳回请求；如果请求可接受服务器就会在相应的
+	头部中设置Access-Control-Allow-Orgin头部中发回相同的源信息或者“*”表示可以被任意外域访问。
+	对于那些对服务器可能造成副作用的请求方法（非简单请求），还要发送预检请求告知服务器请求使用的方法和自定义的头部，
+	服务器会在Access-Control-Allow-Headers 和Access-Control-Allow-Methods头部中返回允许请求的方法和允许的头部。
+	此外，还可以要求携带身份认证（cookies、http认证相关数据）

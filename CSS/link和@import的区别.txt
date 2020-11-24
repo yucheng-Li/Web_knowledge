@@ -1,8 +1,24 @@
-	link和@import的区别
+link和@import的区别：
+（1）加载资源的限制
+	link是XHTML的标签，除了加载CSS文件外，还可以加载RSS等其他事物，如加载模板等。
+	@import只能加载CSS文件
 	
-	1.从属关系区别@import是 CSS 提供的语法规则，只有导入样式表的作用；link是HTML提供的标签，不仅可以加载 CSS 文件，还可以定义 RSS、rel 连接属性等。
-	2.加载顺序区别加载页面时，link标签引入的 CSS 被同时加载；@import引入的 CSS 将在页面加载完毕后被加载。
-	3.兼容性区别@import是 CSS2.1 才有的语法，故只可在 IE5+ 才能识别；link标签作为 HTML 元素，不存在兼容性问题。
-	4.DOM可控性区别可以通过 JS 操作 DOM ，插入link标签来改变样式；由于DOM方法是基于文档的，无法使用@import的方式插入样式。
-	5.权重区别link引入的样式权重大于@import引入的样式。
+（2）加载方式
+	如果用link引用CSS，则与页面同步加载
+	如果用@import引用CSS，则等页面完全载入后加载CSS文件，即异步加载
+	
+（3）兼容性
+	link是XHTML标签，没有兼容性问题
+	@import是在CSS2.1提出，不支持低版本的浏览器
+	
+（4）改变样式
+	link的标签是DOM元素，支持通过JavaScript控制DOM和修改样式，@import是一种方法，不支持
+	
+【HTML 中引入 CSS 的方式】https://www.runoob.com/w3cnote/html-import-css-method.html
+有四种引入CSS的方式：
+1. 内联   <div style="background: red"></div>
+2. 嵌入   嵌入方式指的是在 HTML 头部中的 <style> 标签下书写 CSS 代码。
+3. 链接	  <link rel="stylesheet" type="text/css" href="style.css">
+4. 导入   @import url(style.css);
 
+// 当 HTML 文件被加载时，link 引用的文件会同时被加载，而 @import 引用的文件则会等页面全部下载完毕再被加载；

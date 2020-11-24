@@ -1,0 +1,2 @@
+1. inline-block 是具有inline的同行性质又能像block一样设置宽度和高度
+2. text-align：center 是针对行内元素而言的，块级元素不要乱搞

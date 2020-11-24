@@ -1,0 +1,71 @@
+Math对象的属性：
+	E				返回算术常量 e，即自然对数的底数（约等于2.718）。
+	LN2			返回 2 的自然对数（约等于0.693）。
+	LN10			返回 10 的自然对数（约等于2.302）。
+	LOG2E		返回以 2 为底的 e 的对数（约等于 1.4426950408889634）。
+	LOG10E	返回以 10 为底的 e 的对数（约等于0.434）。
+	PI				返回圆周率（约等于3.14159）。
+	SQRT1_2	返回 2 的平方根的倒数（约等于 0.707）。
+	SQRT2		返回 2 的平方根（约等于 1.414）。
+	
+Math 对象方法
+	abs(x)				返回 x 的绝对值。
+	acos(x)				返回 x 的反余弦值。
+	asin(x)				返回 x 的反正弦值。
+	atan(x)				以介于 -PI/2 与 PI/2 弧度之间的数值来返回 x 的反正切值。
+	atan2(y,x)			返回从 x 轴到点 (x,y) 的角度（介于 -PI/2 与 PI/2 弧度之间）。
+	ceil(x)				对数进行上舍入。
+	cos(x)				返回数的余弦。
+	exp(x)				返回 Ex 的指数。
+	floor(x)				对 x 进行下舍入。
+	log(x)				返回数的自然对数（底为e）。
+	max(x,y,z,...,n)	返回 x,y,z,...,n 中的最高值。
+	min(x,y,z,...,n)	返回 x,y,z,...,n中的最低值。
+	pow(x,y)			返回 x 的 y 次幂。
+	random()			返回 0 ~ 1 之间的随机数。
+	round(x)			四舍五入。
+	sin(x)				返回数的正弦。
+	sqrt(x)				返回数的平方根。
+	tan(x)				返回角的正切。
+
+Number 对象属性
+	constructor				返回对创建此对象的 Number 函数的引用。
+	MAX_VALUE				可表示的最大的数。
+	MIN_VALUE				可表示的最小的数。
+	NEGATIVE_INFINITY	负无穷大，溢出时返回该值。
+	NaN							非数字值。
+	POSITIVE_INFINITY	正无穷大，溢出时返回该值。
+	prototype					允许您可以向对象添加属性和方法。
+	
+Number 对象方法
+	isFinite					检测指定参数是否为无穷大。
+	toExponential(x)	把对象的值转换为指数计数法。
+	toFixed(x)				把数字转换为字符串，结果的小数点后有指定位数的数字。
+	toPrecision(x)		把数字格式化为指定的长度。
+	toString()				把数字转换为字符串，使用指定的基数。
+	valueOf()				返回一个 Number 对象的基本数字值。
+ES6新增加：
+	Number.isInteger(): 			用来判断给定的参数是否为整数。
+	Number.isSafeInteger(): 	判断传入的参数值是否是一个"安全整数"。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

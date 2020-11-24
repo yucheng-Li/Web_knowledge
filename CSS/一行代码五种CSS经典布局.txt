@@ -1,0 +1,54 @@
+https://www.ruanyifeng.com/blog/2020/08/five-css-layouts-in-one-line.html [ 阮老师 ]
+
+1. 空间居中布局
+		写在容器上
+		（1）居中
+		.container {
+		display: grid;
+		place-items: center;   // 是 place-items: <align-items> <justify-items>; 的简写
+	} 
+		（2）左上角
+		place-items: start; 
+		（3）右上角
+		place-items: end; 
+		
+2. 并列式布局
+	居中并列，不够换行
+	用flex布局
+		.container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	
+3. 两栏式布局
+
+		.container {
+		display: grid;
+		grid-template-columns: minmax(150px, 25%) 1fr;
+	}
+
+4. 三明治布局
+	.container {
+			  display: grid;
+			  grid-template-rows: auto 1fr auto;
+			}
+			
+5. 圣杯布局
+	.container {
+		display: grid;
+		grid-template: auto 1fr auto / auto 1fr auto;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+		

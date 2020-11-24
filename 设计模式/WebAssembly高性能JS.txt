@@ -1,0 +1,44 @@
+前言：
+	JS本是脚本语言并不追求运行速度，导致如今创建的Web应用程序运行十分缓慢（虽然由V8引擎的加持）但无法和原生的应用程序相提并论
+	主要是JS相比于原生的应用程序的语言编写遇到更多的步骤才能转换成为机器语言
+
+正文：
+	1. JS如何编写媲美原生应用程序的解决方案
+		解决方案WebAssembly 理解为Web的汇编，它是一种类似于汇编语言的底层语言，
+		上次JS的的技术革新来源于JIT编译，这使得JS的运行速度提升了将近10倍
+		
+前言：
+	Web技术突飞猛进，但有一个领域一直无法突破 --- 游戏
+	游戏对性能要求非常高，大型游戏在PC机跑起来都很吃力更别提在浏览器沙盒模型里面了，那么万一我们有个设想
+	在浏览器里面运行3D游戏，怎么实现呢？
+
+正文：	
+	设想，现在游戏基本都是用C/C++编写的，如果能将C/C++语言编译成JavaScript不就可以在浏览器里面运行3D游戏了吗
+	那么Mozilla 的工程师 Alon Zakai 就成功设计出了这样一款编译器 Emscripten ，它可以将将 C / C++ 代码编译成 asm.js( 一种JS的变体 )
+	C / C++ 编译成 JS 有两个最大的困难
+	1. C / C++ 是静态类型语言，而 JS 是动态类型语言。
+	2. C / C++ 是手动内存管理，而 JS 依靠垃圾回收机制。
+	
+	而我们现在的asm.js 就是相当于优化后的 js, 完善了静态类型和增加了手动内存管理的机制
+	而这也对应到了文章中的WebAssembly与JavaScript编译过程的对比，编译器无需对 WebAssembly 代码做任何假设，因为数据类型之类的东西在代码中是显式展现的。
+	WebAssembly的前身，asm.js
+	有了asm.js 为什么还需要 WebAssembly?
+	无论asm.js对静态类型的问题做的再好，它始终逃不过要经过Parser，要经过ByteCode Compiler，而这两步是JavaScript代码在引擎执行过程当中消耗时间最多的两步。而WebAssembly不用经过这两步。这就是WebAssembly比asm.js更快的原因。
+
+
+	
+	
+	
+	
+	
+	
+	
+
+		
+		
+		
+		
+https://zhuanlan.zhihu.com/p/44076682[ 好玩的WebAssembly ]
+https://www.ruanyifeng.com/blog/2017/09/asmjs_emscripten.html [ 阮一峰asm.js 和 Emscripten入门教程 ]
+	
+	

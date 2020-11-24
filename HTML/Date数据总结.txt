@@ -1,0 +1,18 @@
+getTime：返回 1970 年 1 月 1 日至今的毫秒数 
+// 这个方法常用来计算差值也就是用来倒计时
+// 通过给 var endtime = new Date("2021/01/01,00:00:00");
+setTime：setTime() 方法以毫秒设置 Date 对象  
+ 
+
+get/setDate：返回一个月中的第几天（今天）（1~31） 
+get/setDay：返回一周中的第几天（0~6）
+get/setFullYear( )：返回当前年份四位数字（20XX）
+get/setHours( )：返回此刻是今天中的第几点小时（0~23）
+get/setMilliseconds( )：返回此刻在一秒钟是第几毫秒了(ms)
+get/setSeconds( )：返回此刻在一分钟里是第几秒了
+get/setMinutes( )：返回此刻在一小时是第几分钟了
+get/setMonth( )：返回此刻是今年的第几月份（0~11） // 注意月份是从0开始因此要加 1 才是正确月份
+
+toDateString( )：把一个月中的第几天（今天）转为字符串
+
+

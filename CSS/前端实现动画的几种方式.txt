@@ -1,0 +1,6 @@
+1. CSS的 transition
+2. CSS3的 animation属性
+3. 原生手写JS动画
+4. 用一些已经写好的动画插件
+5. 用canvas制作动画
+6. 引用gif图片

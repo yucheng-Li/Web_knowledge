@@ -1,11 +1,25 @@
-Promise 的定义：它是JS异步编程的一种解决方案，相较于传统的 回调函数+事件 更加强大和合理
+1. 	Promise是异步编程的一种解决方案；
+	因此我们在了解Promise前我们需要了解异步编程的重点：回调函数
+	回调函数：当我们执行某种无法立即返回结果的任务时，回调函数就能异步地帮我们把结果返回或者说当我们异步返回成功后
+					要紧接着执行的下一步指令
 
-Promise的理解：所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
-						从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
-						
-Promise的特点：
-	（1）Promise对象的状态不会受外界的影响
-	Promise对象代表一个异步操作，且有三种状态：pending( 进行中 ) 、fulfilling( 已成功) 、rejected( 已失败 )
-	Promise对象一旦建立就会进入pending状态，且只有异步操作的结果才会改变Promise的状态
-	（2）Promise状态一旦改变就不会再变化，且此后随时都能通过访问得到这个状态结果
-	状态改变只有两种可能：1. pending -> fulfilled ( resolved )( 成功 ) 2. pending -> rejected (  rejected )（失败）
+2.	而Promise 则是以链式调用的方法来解决多重回调函数的面临的回调地狱问题
+	new出来的Promise 用一个回调函数作为参数内含两个变量，一个代表成功回调，一个代表失败回调, 一旦成功执行了
+	成功的回调，就不会执行失败的了，这里也就对应上了所谓的从pending状态变到resolved 或着从pending状态变到了rejected
+		let promise = new Promise((resolve, reject)=>{
+			resolve("通过了")
+			reject("拒绝了");
+		});
+		promise.then((data)=>{
+			console.log('success' + data);
+		}, (error)=>{
+			console.log("Error code: " + error)
+		});
+	
+3. then 方法的规则
+	
+
+
+
+
+

@@ -1,0 +1,30 @@
+【阮一峰-理解RESTful架构】https://www.ruanyifeng.com/blog/2011/09/restful.html
+【認識 RESTful API】https://github.com/twtrubiks/django-rest-framework-tutorial/tree/master/RESTful-API-Tutorial
+【RESTful接口设计原则和优点】https://cloud.tencent.com/developer/article/1083543
+【对于前后端分离技术的理解和实现】https://blog.csdn.net/jielysong117/article/details/68948972
+RESTful是一种互联网软件架构
+REST本身并没有创造新的技术、组件或服务，而隐藏在RESTful背后的理念就是使用Web的现有特征和能力， 
+更好地使用现有Web标准中的一些准则和约束。
+
+这个架构具体可以分为三部分来描述：Representational State Transfer  （表现层	资源	  状态转化）
+
+什么是RESTful架构：
+（1）每一个URI代表一种资源；（URI成为每一个资源的地址或独一无二的识别符）
+（2）客户端和服务器之间，传递这种资源的某种表现层；（HTML\XML\JSON\txt这些都是数据格式）
+（3）客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。（通过GET\POST\PUT来引导服务器数据发生改变）
+
+
+RESTful它是一种设计风格或是一种设计规范
+一般的API的请求可能长这样/api/get_file  /api/update 
+RESTful API 长这样 /api/file/ ( GET->获取资源 )
+可见RESTful API 它是利用了HTTP不同的method （GET \ POST \ PUT \ DELECTE）来达到相同的请求目的
+明显可见 RESTful 的请求更加优雅
+
+RESTful架构优点：
+
+1. 前后端分离，减少流量
+2. 安全问题集中在接口上，由于接受json格式，防止了注入型等安全问题
+3. 前端无关化，后端只负责数据处理，前端表现方式可以是任何前端语言（android，ios,html5）
+4. 前端和后端人员更加专注于各自开发，只需接口文档便可完成前后端交互，无需过多相互了解
+5. 服务器性能优化：由于前端是静态页面，通过nginx便可获取，服务器主要压力放在了接口上
+

@@ -7,6 +7,7 @@
 2. 一个section通常由内容和标题组成，通常不推荐那些没有标题的内容用section，
 在HTML 5 Outliner这个网站可以检测没有标题的section，section的作用是对页面上的内容进行分块，
 如各个有标题的版块、功能区或对文章进行分段，不要与有自己完整、独立内容的article混淆。
+https://www.zhihu.com/question/20227599
 
 3. getContext('2d')方法让我们拿到一个CanvasRenderingContext2D对象，所有的绘图操作都需要通过这个对象完成。
 	var ctx = canvas.getContext('2d');
